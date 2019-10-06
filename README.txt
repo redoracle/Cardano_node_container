@@ -40,7 +40,7 @@ storage: "/datak/jormungandr"
 Note: xxx.xxx.xxx.xxx is your public IP.
 
 To run:
-docker run -it -d --name Cardano -p 3000:3000 -p 3100:3100 -p 3101:3101 -v /home/xxx/DATA/CardanoNodeTest/:/datak
+docker run -it -d --name Cardano -p 3000:3000 -p 3100:3100 -p 127.0.0.1:3101:3101 -v /home/xxx/DATA/CardanoNodeTest/:/datak
 
 To get the container id run: 
 docker ps
