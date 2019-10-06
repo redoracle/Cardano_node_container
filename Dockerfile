@@ -1,4 +1,4 @@
-FROM FROM debian:stable
+FROM debian:stable
 MAINTAINER RedOracle
 
 # Metadata params
@@ -28,7 +28,10 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 VOLUME /datak
     
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractive \
+ENV=/etc/profile \
+USER=root \
+PATH=/root/red-jor-test/:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
 
 RUN set -x \
 
@@ -38,38 +41,38 @@ RUN set -x \
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm vim\
+    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim\
     
-    #Create a directory to store our experiments \
+    #Create a directory to store our testnet node \
     && mkdir -p ~/red-jor-test \                                               
     && cd ~/red-jor-test \
+    #Download IOHK scripts \
+    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/createAddress.sh \
+    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/createStakePool.sh \
+    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-money.sh \
+    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/delegate-account.sh \
+    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-certificate.sh \    
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.5.5/jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && tar xzvf jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
-    && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
-    
-    #Get the source code \
-    #&& git clone https://github.com/input-output-hk/jormungandr \              
-    #&& cd jormungandr \
-    #&& git submodule update --init --recursive \
-    #Install and make the executables available in the PATH \
-    #&& cargo install --force --path jormungandr \                              
-    #&& cargo install --force --path jcli \
-    #Make scripts exectuable
-    #&& chmod +x ./scripts/bootstrap \                   
+    && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \                
     
     #RustUP Installation and other rquirements # https://github.com/input-output-hk/js-chain-libs
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
     && sh rustup_inst.sh -y \
     && . $HOME/.cargo/env \
     && rustup install stable
-    
     && curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf > wasm.sh \
     && sh wasm.sh 
     && rm rustup_inst.sh wasm.sh \
-    
+    && git clone https://github.com/input-output-hk/js-chain-libs.git \
+    && cd js-chain-libs \
+    && git submodule init \
+    && git submodule update \
+    && wasm-pack build \
+    && wasm-pack pack \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     
 CMD ["bash"]
 
-EXPOSE 80 443 8443 3100 3000 3101
+EXPOSE 8443 3100 3000 3101
