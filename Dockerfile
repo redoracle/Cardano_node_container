@@ -46,19 +46,25 @@ RUN set -x \
     #Create a directory to store our testnet node \
     && mkdir -p ~/red-jor-test \                                               
     && cd ~/red-jor-test \
+    
     #Download IOHK scripts \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/createAddress.sh \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/createStakePool.sh \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-money.sh \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/delegate-account.sh \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-certificate.sh \ 
+    
+    # JTools Download https://github.com/clio-one/cardano-on-the-rocks/tree/master/scripts/Jormungandr \
+    && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
+    && sed -i -e 's/8080/3101/' jtools.sh \
+    && sed -i -e 's/^BASE_FOLDER=~\/jormungandr\//BASE_FOLDER=~\/red-jor-test\//'  jtools.sh \
     && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > stats.sh \
     && chmod +x *.sh \
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.5.5/jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && tar xzvf jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \                
     
-    #RustUP Installation and other rquirements # https://github.com/input-output-hk/js-chain-libs
+    #RustUP Installation and other rquirements # https://github.com/input-output-hk/js-chain-libs \
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
     && sh rustup_inst.sh -y \
     && . $HOME/.cargo/env \
@@ -72,10 +78,12 @@ RUN set -x \
     && git submodule update \
     && wasm-pack build \
     && wasm-pack pack \
-    # Faucet examples 
+    
+    # Faucet examples \
     # https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
     # https://github.com/input-output-hk/js-chain-libs \
     # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
+    # Very important https://github.com/input-output-hk/shelley-testnet/wiki/How-to-setup-a-Jormungandr-Networking--node-(--v0.5.0) \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     
