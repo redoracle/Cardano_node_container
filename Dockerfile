@@ -52,8 +52,11 @@ RUN set -x \
     && sed -i -e 's/8080/3101/' jtools.sh \
     && sed -i -e 's/^BASE_FOLDER=~\/jormungandr\//BASE_FOLDER=~\/red-jor-test\//' jtools.sh \
     && sed -i -e 's/^WALLET_FOLDER=\$BASE_FOLDER\"wallet\"/WALLET_FOLDER=\/datak\/wallet\//' jtools.sh \
+    && sed -i -e 's/^POOL_FOLDER=\$BASE_FOLDER\"pool\"/POOL_FOLDER=\/datak\/pool\//' jtools.sh \
+    && sed -i -e 's/^JTOOLS_LOG=\${BASE_FOLDER}\/jtools-history.log/JTOOLS_LOG=\/datak\/jtools-history.log/' jtools.sh \
     
     #Link creations for quick access to jtools and storage of the wallets on /datak \ 
+    #Other REST calls https://input-output-hk.github.io/jormungandr/jcli/rest.html \
     && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > jstats.sh \
     && echo "/root/red-jor-test/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > jstatx.sh \
     && echo "/root/red-jor-test/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > jshutdown.sh \
