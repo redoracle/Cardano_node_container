@@ -60,9 +60,9 @@ RUN set -x \
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
     && sh rustup_inst.sh -y \
     && . $HOME/.cargo/env \
-    && rustup install stable
+    && rustup install stable \
     && curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf > wasm.sh \
-    && sh wasm.sh 
+    && sh wasm.sh \
     && rm rustup_inst.sh wasm.sh \
     && git clone https://github.com/input-output-hk/js-chain-libs.git \
     && cd js-chain-libs \
