@@ -27,6 +27,13 @@ p2p:
     - "/ip4/3.115.57.216/tcp/3000"
 rest:
   listen: "127.0.0.1:3101"
+leadership:
+    log_ttl: 1h
+    garbage_collection_interval: 15m
+mempool:
+    fragment_ttl: 30m
+    log_ttl: 1h
+    garbage_collection_interval: 15m
 storage: "/datak/jormungandr"
 -----------------------------------------------
 
