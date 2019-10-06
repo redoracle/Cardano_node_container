@@ -41,7 +41,7 @@ RUN set -x \
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim\
+    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim watch\
     
     #Create a directory to store our testnet node \
     && mkdir -p ~/red-jor-test \                                               
@@ -51,7 +51,9 @@ RUN set -x \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/createStakePool.sh \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-money.sh \
     && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/delegate-account.sh \
-    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-certificate.sh \    
+    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-certificate.sh \ 
+    && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > stats.sh \
+    && chmod +x *.sh \
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.5.5/jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && tar xzvf jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \                
@@ -71,7 +73,7 @@ RUN set -x \
     && wasm-pack build \
     && wasm-pack pack \
     # Faucet examples 
-    #https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
+    # https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
     # https://github.com/input-output-hk/js-chain-libs \
     # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
     && apt-get clean \
