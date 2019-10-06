@@ -13,7 +13,7 @@ log:
   output: "stderr"
 p2p:
   listen_address: "/ip4/0.0.0.0/tcp/3100"
-  public_address: "/ip4/xxx.xxx.xxx.xxx/tcp/3100"
+  public_address: "/ip4/xxx.xxx.xxx.xxx/tcp/3000"
   topics_of_interest:
     blocks: "high"
     messages: "high"
