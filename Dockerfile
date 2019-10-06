@@ -41,25 +41,28 @@ RUN set -x \
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim watch\
+    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim watch jq\
     
     #Create a directory to store our testnet node \
     && mkdir -p ~/red-jor-test \                                               
     && cd ~/red-jor-test \
     
-    #Download IOHK scripts \
-    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/createAddress.sh \
-    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/createStakePool.sh \
-    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-money.sh \
-    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/delegate-account.sh \
-    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/send-certificate.sh \ 
-    
-    # JTools Download https://github.com/clio-one/cardano-on-the-rocks/tree/master/scripts/Jormungandr \
+    #JTools Download https://github.com/clio-one/cardano-on-the-rocks/tree/master/scripts/Jormungandr \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && sed -i -e 's/8080/3101/' jtools.sh \
-    && sed -i -e 's/^BASE_FOLDER=~\/jormungandr\//BASE_FOLDER=~\/red-jor-test\//'  jtools.sh \
-    && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > stats.sh \
+    && sed -i -e 's/^BASE_FOLDER=~\/jormungandr\//BASE_FOLDER=~\/red-jor-test\//' jtools.sh \
+    && sed -i -e 's/^WALLET_FOLDER=\$BASE_FOLDER\"wallet\"/WALLET_FOLDER=\/datak\/wallet\//' jtools.sh \
+    
+    #Link creations for quick access to jtools and storage of the wallets on /datak \ 
+    && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > jstats.sh \
+    && echo "/root/red-jor-test/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > jstatx.sh \
+    && echo "/root/red-jor-test/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > jshutdown.sh \
+    && echo "/root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770" > jrun.sh \
     && chmod +x *.sh \
+    && ln -s ~/red-jor-test/jtools.sh /usr/local/bin/jtools \
+    && ln -s ~/red-jor-test/jstats.sh /usr/local/bin/jstats \
+    && ln -s ~/red-jor-test/jstatx.sh /usr/local/bin/jstatx \
+    && ln -s ~/red-jor-test/jshutdown.sh /usr/local/bin/jshutdown \
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.5.5/jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && tar xzvf jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \                
