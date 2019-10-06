@@ -15,7 +15,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.description='UNOfficial Cardano Node docker image' \
       org.label-schema.usage='https://www.redoracle.com/docker/' \
       org.label-schema.url='https://www.redoracle.com/' \
-      org.label-schema.vendor='RedOracle Security' \
+      org.label-schema.vendor='Red0racle S3curity' \
       org.label-schema.schema-version='1.0' \
       org.label-schema.docker.cmd='docker run --rm redoracle/cardano-node-docker' \
       org.label-schema.docker.cmd.devel='docker run --rm -ti redoracle/cardano-node-docker' \
@@ -70,6 +70,10 @@ RUN set -x \
     && git submodule update \
     && wasm-pack build \
     && wasm-pack pack \
+    # Faucet examples 
+    #https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
+    # https://github.com/input-output-hk/js-chain-libs \
+    # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     
