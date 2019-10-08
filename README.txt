@@ -11,7 +11,8 @@ I used "/home/xxx/DATA/CardanoNodeTest/"
 
 Available tools (included in ENV PATH):
 
-jtools: ufficial tool for creating wallet and pools
+Ufficial tool for creating wallet and pools
+jtools
 
 Derivate command from jcli:
 jstats
@@ -20,8 +21,33 @@ jshutdown
 stop-node 
 start-node
 start-pool
+ 
+GeoIP netstat watching:
+watch_node
+----------------------------------------------------------------------
+Based on: https://input-output-hk.github.io/jormungandr/jcli/rest.html
 
-watch_node: GeoIP netstat watching.
+STATS
+/root/red-jor-test/jcli rest v0 node stats get --host "http://127.0.0.1:3101/api"
+
+HELP
+/root/red-jor-test/jcli rest v0 node --help --host "http://127.0.0.1:3101/api"
+
+UTXO
+/root/red-jor-test/jcli rest v0 utxo get --host "http://127.0.0.1:3101/api"
+
+STAKE POOLS LIST
+/root/red-jor-test/jcli rest v0 stake-pools get --host "http://127.0.0.1:3101/api"
+
+STAKE
+/root/red-jor-test/jcli rest v0 stake get --host "http://127.0.0.1:3101/api"
+
+
+LEADERS
+/root/red-jor-test/jcli rest v0 leaders get --host "http://127.0.0.1:3101/api"
+/root/red-jor-test/jcli rest v0 leaders post --host "http://127.0.0.1:3101/api"
+
+----------------------------------------------------------------------
 
 
 ---- OUTSIDE THE CONTAINER ----
