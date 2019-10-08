@@ -62,7 +62,7 @@ RUN set -x \
     && echo "/root/red-jor-test/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > jshutdown.sh \
     && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770 do; echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done" > start-node.sh \
     && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770 do; echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done" > start-pool.sh \
-    echo "watch \"netstat -anl  | grep tcp | grep EST |  awk '{print $ 5}' | cut -d ":" -f 1 | sort | uniq | xargs -n 1 geoiplookup {} | sed -r 's/^GeoIP Country Edition://g'\"" > watch_shelly.sh \
+    && echo "watch \"netstat -anl  | grep tcp | grep EST |  awk \'{print $ 5}\' | cut -d \":\" -f 1 | sort | uniq | xargs -n 1 geoiplookup {} | sed -r 's/^GeoIP Country Edition://g'\"" > watch_node.sh \
     && chmod +x *.sh \
     && ln -s ~/red-jor-test/jtools.sh /usr/local/bin/jtools \
     && ln -s ~/red-jor-test/jstats.sh /usr/local/bin/jstats \
