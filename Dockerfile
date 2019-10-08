@@ -60,12 +60,26 @@ RUN set -x \
     && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > jstats.sh \
     && echo "/root/red-jor-test/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > jstatx.sh \
     && echo "/root/red-jor-test/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > jshutdown.sh \
-    && echo "/root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770" > jrun.sh \
+    && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770
+    do
+    echo "Jormungandr crashed with exit code $?.  Respawning.." >&2;
+    sleep 1; 
+    done" > start-node.sh \
+    && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770
+    do
+    echo "Jormungandr crashed with exit code $?.  Respawning.." >&2;
+    sleep 1; 
+    done" > start-pool.sh \
+    echo "watch \"netstat -anl  | grep tcp | grep EST |  awk '{print $ 5}' | cut -d ":" -f 1 | sort | uniq | xargs -n 1 geoiplookup {} | sed -r 's/^GeoIP Country Edition://g'\"" > watch_shelly.sh \
     && chmod +x *.sh \
     && ln -s ~/red-jor-test/jtools.sh /usr/local/bin/jtools \
     && ln -s ~/red-jor-test/jstats.sh /usr/local/bin/jstats \
     && ln -s ~/red-jor-test/jstatx.sh /usr/local/bin/jstatx \
     && ln -s ~/red-jor-test/jshutdown.sh /usr/local/bin/jshutdown \
+    && ln -s ~/red-jor-test/jshutdown.sh /usr/local/bin/stop-node \
+    && ln -s ~/red-jor-test/start-node.sh /usr/local/bin/start-node \
+    && ln -s ~/red-jor-test/start-pool.sh /usr/local/bin/start-pool \
+    && ln -s ~/red-jor-test/watch_node.sh /usr/local/bin/watch_node \
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.5.5/jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && tar xzvf jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \                
@@ -94,5 +108,6 @@ RUN set -x \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     
 CMD ["bash"]
+ENTRYPOINT ["cd" , "~/red-jor-test/" ]
 
-EXPOSE 8443 3100 3000 3101
+EXPOSE 8299 3100 3000 3101
