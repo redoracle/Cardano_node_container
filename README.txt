@@ -1,9 +1,28 @@
-Hello
+Cardano TestNet Phase 2 - Pool node
+
 
 Requirements:
 
 1) an external folder mapped to the internal container folder used store Node Info and configuration "node-config.yaml".
 I used "/home/xxx/DATA/CardanoNodeTest/"
+2) public IP
+3) linux server (I use Debian)
+
+
+Available tools (included in ENV PATH):
+
+jtools: ufficial tool for creating wallet and pools
+
+Derivate command from jcli:
+jstats
+jstatx
+jshutdown
+stop-node 
+start-node
+start-pool
+
+watch_node: GeoIP netstat watching.
+
 
 ---- OUTSIDE THE CONTAINER ----
 
