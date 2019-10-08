@@ -100,6 +100,5 @@ RUN set -x \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     
 CMD ["bash"]
-ENTRYPOINT ["cd" , "~/red-jor-test/" ]
 
 EXPOSE 8299 3100 3000 3101
