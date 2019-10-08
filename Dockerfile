@@ -41,7 +41,7 @@ RUN set -x \
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim watch jq\
+    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim watch jq geoip-bin geoip-database \
     
     #Create a directory to store our testnet node \
     && mkdir -p ~/red-jor-test \                                               
