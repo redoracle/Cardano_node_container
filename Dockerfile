@@ -28,7 +28,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 VOLUME /datak
     
-ENV DEBIAN_FRONTEND noninteractive \
+ENV DEBIAN_FRONTEND noninteractive
 ENV=/etc/profile \
 USER=root \
 PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH \
