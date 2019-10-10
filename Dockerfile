@@ -91,7 +91,8 @@ PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin
     # https://github.com/input-output-hk/js-chain-libs \
     # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
     # Very important https://github.com/input-output-hk/shelley-testnet/wiki/How-to-setup-a-Jormungandr-Networking--node-(--v0.5.0) \
-    
-CMD ["bash"]
+
+CMD ["/bin/bash", "~/red-jor-test/script/start-pool.sh", "&"]
+CMD ["/bin/bash", "~/red-jor-test/script/web_interface_tmux.sh", "&"]
 
 EXPOSE 9001 8299 3100 3000 3101
