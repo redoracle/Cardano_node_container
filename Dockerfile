@@ -44,13 +44,18 @@ RUN set -x \
     && cd ttyd && mkdir build && cd build \
     && cmake .. \
     && make && make install \
-    && echo "ttyd -p 9001 -R tmux new -A -s ttyd" > ~/red-jor-test/script/web_interface_tmux.sh \
+    && echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/red-jor-test/script/web_interface_tmux.sh \
+    && echo "tmux attach" >> ~/red-jor-test/script/web_interface_tmux.sh \
+    && echo "tmux source ~/.tmux.conf" >> ~/red-jor-test/script/web_interface_tmux.sh \
     && cp /usr/share/doc/tmux/example_tmux.conf ~/.tmux.conf \
     && echo "set -g @plugin 'tmux-plugins/tmux-resurrect'" >> ~/.tmux.conf \
+    && echo "set -g @resurrect-save 'S'" >> ~/.tmux.conf \
+    && echo "set -g @resurrect-restore 'R'" >> ~/.tmux.conf \
+    && echo "set -g @plugin 'tmux-plugins/tmux-continuum'" >> ~/.tmux.conf \
+    && echo "set -g @colors-solarized 'dark'" >> ~/.tmux.conf \
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
-    && git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux/plugins/tpm/resurrect \
     && echo "run-shell ~/.tmux/plugins/tpm/resurrect.tmux" >> ~/.tmux.conf \
-    && tmux source ~/.tmux.conf \
+    && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
     && cd ~/red-jor-test/ \
     && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstats.sh \
     && echo "/root/red-jor-test/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstatx.sh \
