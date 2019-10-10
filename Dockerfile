@@ -31,7 +31,7 @@ VOLUME /datak
 ENV DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
 USER=root \
-PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
+PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH \
 
 RUN set -x \
 
