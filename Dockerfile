@@ -31,7 +31,7 @@ VOLUME /datak
 ENV DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
 USER=root \
-PATH=/root/red-jor-test/:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
+PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
 
 RUN set -x \
 
@@ -41,8 +41,9 @@ RUN set -x \
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev pkg-config npm git vim watch jq watch net-tools geoip-bin geoip-database \
-    
+    && apt-get -yqq install curl wget bash build-essential libssl-dev cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-devnpm watch jq watch net-tools geoip-bin geoip-database \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     #Create a directory to store our testnet node \
     && mkdir -p ~/red-jor-test \                                               
     && cd ~/red-jor-test \
@@ -55,23 +56,33 @@ RUN set -x \
     && sed -i -e 's/^POOL_FOLDER=\$BASE_FOLDER\"pool\"/POOL_FOLDER=\/datak\/pool\//' jtools.sh \
     && sed -i -e 's/^JTOOLS_LOG=\${BASE_FOLDER}\/jtools-history.log/JTOOLS_LOG=\/datak\/jtools-history.log/' jtools.sh \
     
+    #XtermJS WEB Interface for tmux
+    && cd \
+    && git clone https://github.com/tsl0922/ttyd.git \
+    && cd ttyd && mkdir build && cd build \
+    && cmake .. \
+    && make && make install && cd \
+    && echo "ttyd -p 9001 -R tmux new -A -s ttyd tmux" > ~/red-jor-test/script/web_interface_tmux.sh \
+    && cd ~/red-jor-test/ \
+    
     #Link creations for quick access to jtools and storage of the wallets on /datak \ 
     #Other REST calls https://input-output-hk.github.io/jormungandr/jcli/rest.html \
-    && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > jstats.sh \
-    && echo "/root/red-jor-test/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > jstatx.sh \
-    && echo "/root/red-jor-test/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > jshutdown.sh \
-    && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770 do; echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done" > start-node.sh \
-    && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770 do; echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done" > start-pool.sh \
-    && echo "watch \"netstat -anl  | grep tcp | grep EST |  awk \'{print $ 5}\' | cut -d \":\" -f 1 | sort | uniq | xargs -n 1 geoiplookup {} | sed -r 's/^GeoIP Country Edition://g'\"" > watch_node.sh \
-    && chmod +x *.sh \
+    && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstats.sh \
+    && echo "/root/red-jor-test/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstatx.sh \
+    && echo "/root/red-jor-test/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jshutdown.sh \
+    && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770 do; echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done" > ~/red-jor-test/script/start-node.sh \
+    && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770 do; echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done" > ~/red-jor-test/script/start-pool.sh \
+    && echo "watch \"netstat -anl  | grep tcp | grep EST |  awk \'{print $ 5}\' | cut -d \":\" -f 1 | sort | uniq | xargs -n 1 geoiplookup {} | sed -r 's/^GeoIP Country Edition://g'\"" > ~/red-jor-test/script/watch_node.sh \
+    && chmod +x ~/red-jor-test/script/*.sh \
+    && chmod +x ~/red-jor-test/*.sh \
     && ln -s ~/red-jor-test/jtools.sh /usr/local/bin/jtools \
-    && ln -s ~/red-jor-test/jstats.sh /usr/local/bin/jstats \
-    && ln -s ~/red-jor-test/jstatx.sh /usr/local/bin/jstatx \
-    && ln -s ~/red-jor-test/jshutdown.sh /usr/local/bin/jshutdown \
-    && ln -s ~/red-jor-test/jshutdown.sh /usr/local/bin/stop-node \
-    && ln -s ~/red-jor-test/start-node.sh /usr/local/bin/start-node \
-    && ln -s ~/red-jor-test/start-pool.sh /usr/local/bin/start-pool \
-    && ln -s ~/red-jor-test/watch_node.sh /usr/local/bin/watch_node \
+    && ln -s ~/red-jor-test/script/jstats.sh /usr/local/bin/jstats \
+    && ln -s ~/red-jor-test/script/jstatx.sh /usr/local/bin/jstatx \
+    && ln -s ~/red-jor-test/script/jshutdown.sh /usr/local/bin/jshutdown \
+    && ln -s ~/red-jor-test/script/jshutdown.sh /usr/local/bin/stop-node \
+    && ln -s ~/red-jor-test/script/start-node.sh /usr/local/bin/start-node \
+    && ln -s ~/red-jor-test/script/start-pool.sh /usr/local/bin/start-pool \
+    && ln -s ~/red-jor-test/script/watch_node.sh /usr/local/bin/watch_node \
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.5.5/jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && tar xzvf jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \                
@@ -90,15 +101,14 @@ RUN set -x \
     && git submodule update \
     && wasm-pack build \
     && wasm-pack pack \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  \
     
     # Faucet examples \
     # https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
     # https://github.com/input-output-hk/js-chain-libs \
     # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
     # Very important https://github.com/input-output-hk/shelley-testnet/wiki/How-to-setup-a-Jormungandr-Networking--node-(--v0.5.0) \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
     
 CMD ["bash"]
 
-EXPOSE 8299 3100 3000 3101
+EXPOSE 9001 8299 3100 3000 3101
