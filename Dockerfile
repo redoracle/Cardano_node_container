@@ -41,7 +41,7 @@ RUN set -x \
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-devnpm watch jq watch net-tools geoip-bin geoip-database \
+    && apt-get -yqq install curl wget bash build-essential libssl-dev cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     #Create a directory to store our testnet node \
