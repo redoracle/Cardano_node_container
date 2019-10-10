@@ -1,7 +1,6 @@
 FROM debian:stable
 MAINTAINER RedOracle
 
-# Metadata params \
 ARG BUILD_DATE
 ARG VERSION
 ARG VCS_URL
@@ -25,17 +24,9 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       MAINTAINER="RedOracle <info@redoracle.com>"
 
 VOLUME /datak
-    
-ENV \
-DEBIAN_FRONTEND noninteractive \
-ENV=/etc/profile \
-USER=root \
-PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH \
 
 RUN set -x \
-    #Set the root password to impossible \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
-    #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
     && apt-get -yqq install curl wget bash build-essential libssl-dev cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -47,14 +38,14 @@ RUN set -x \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && sed -i -e 's/8080/3101/' jtools.sh \
     && sed -i -e 's/^BASE_FOLDER=~\/jormungandr\//BASE_FOLDER=~\/red-jor-test\//' jtools.sh \
-    && sed -i -e 's/^WALLET_FOLDER=\$BASE_FOLDER\"wallet\"/WALLET_FOLDER=\/datak\/wallet\//' jtools.sh \
-    && sed -i -e 's/^POOL_FOLDER=\$BASE_FOLDER\"pool\"/POOL_FOLDER=\/datak\/pool\//' jtools.sh \
+    && sed -i -e 's/^WALLET_FOLDER=\$BASE_FOLDER\"wallet\\"/WALLET_FOLDER=\/datak\/wallet\//' jtools.sh \
+    && sed -i -e 's/^POOL_FOLDER=\$BASE_FOLDER\"pool\\"/POOL_FOLDER=\/datak\/pool\//' jtools.sh \
     && sed -i -e 's/^JTOOLS_LOG=\${BASE_FOLDER}\/jtools-history.log/JTOOLS_LOG=\/datak\/jtools-history.log/' jtools.sh \
-    && cd /tmp/\
+    && cd /tmp/ \
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
     && cmake .. \
-    && make && make install && cd \
+    && make && make install \
     && echo "ttyd -p 9001 -R tmux new -A -s ttyd tmux" > ~/red-jor-test/script/web_interface_tmux.sh \
     && cd ~/red-jor-test/ \
     && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstats.sh \
@@ -91,6 +82,12 @@ RUN set -x \
     && wasm-pack pack \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  \
     
+ENV \
+DEBIAN_FRONTEND noninteractive \
+ENV=/etc/profile \
+USER=root \
+PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
+
     # Faucet examples \
     # https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
     # https://github.com/input-output-hk/js-chain-libs \
