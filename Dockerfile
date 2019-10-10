@@ -49,7 +49,7 @@ RUN set -x \
     && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstats.sh \
     && echo "/root/red-jor-test/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstatx.sh \
     && echo "/root/red-jor-test/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jshutdown.sh \
-    && echo "neofetch --ascii --source ~/red-jor-test/cardano.ascii --color_blocks off --memory_display infobar --disk_display" > ~/red-jor-test/script/Cardanofetch.sh \
+    && echo "neofetch --ascii --source ~/red-jor-test/cardano.ascii --color_blocks off --memory_display infobar" > ~/red-jor-test/script/Cardanofetch.sh \
     && echo "until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770 do; echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done" >> ~/red-jor-test/script/start-node.sh \
     && echo "JORGM=\$(until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770; do echo \"Jormungandr crashed with exit code $?.  Respawning..\" >&2; sleep 1; done);" >> ~/red-jor-test/script/start-pool.sh \
     && echo "WEB=\$(/root/red-jor-test/script/web_interface_tmux.sh);" >> ~/red-jor-test/script/start-pool.sh \
