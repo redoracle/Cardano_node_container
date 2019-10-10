@@ -1,7 +1,7 @@
 FROM debian:stable
 MAINTAINER RedOracle
 
-# Metadata params
+# Metadata params \
 ARG BUILD_DATE
 ARG VERSION
 ARG VCS_URL
@@ -23,8 +23,6 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       io.github.offensive-security.docker.dockerfile="Dockerfile" \
       io.github.offensive-security.license="GPLv3" \
       MAINTAINER="RedOracle <info@redoracle.com>"
-      
-# One layer execution:
 
 VOLUME /datak
     
@@ -40,10 +38,12 @@ RUN set -x \
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && apt-get -yqq install curl wget bash build-essential libssl-dev cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+
+RUN set -x \    
     #Create a directory to store our testnet node \
-    && mkdir -p /root/red-jor-test/script \                                               
+    && mkdir -p /root/red-jor-test \
+    && mkdir -p /root/red-jor-test/script \   
     && cd /root/red-jor-test \
     #JTools Download https://github.com/clio-one/cardano-on-the-rocks/tree/master/scripts/Jormungandr \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
@@ -53,7 +53,7 @@ RUN set -x \
     && sed -i -e 's/^POOL_FOLDER=\$BASE_FOLDER\"pool\"/POOL_FOLDER=\/datak\/pool\//' jtools.sh \
     && sed -i -e 's/^JTOOLS_LOG=\${BASE_FOLDER}\/jtools-history.log/JTOOLS_LOG=\/datak\/jtools-history.log/' jtools.sh \
     #XtermJS WEB Interface for tmux \
-    && cd \
+    && cd /tmp/\
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
     && cmake .. \
