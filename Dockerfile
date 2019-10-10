@@ -31,13 +31,11 @@ VOLUME /datak
 ENV DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
 USER=root \
-PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH \
+PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH\
 
 RUN set -x \
-
     #Set the root password to impossible \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
-    
     #Update and upgrading the system with requirements \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
