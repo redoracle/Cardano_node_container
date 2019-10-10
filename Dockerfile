@@ -31,7 +31,7 @@ VOLUME /datak
 ENV DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
 USER=root \
-PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH\
+PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH \
 
 RUN set -x \
     #Set the root password to impossible \
@@ -44,7 +44,6 @@ RUN set -x \
     #Create a directory to store our testnet node \
     && mkdir -p /root/red-jor-test/script \                                               
     && cd /root/red-jor-test \
-    
     #JTools Download https://github.com/clio-one/cardano-on-the-rocks/tree/master/scripts/Jormungandr \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && sed -i -e 's/8080/3101/' jtools.sh \
@@ -52,8 +51,7 @@ RUN set -x \
     && sed -i -e 's/^WALLET_FOLDER=\$BASE_FOLDER\"wallet\"/WALLET_FOLDER=\/datak\/wallet\//' jtools.sh \
     && sed -i -e 's/^POOL_FOLDER=\$BASE_FOLDER\"pool\"/POOL_FOLDER=\/datak\/pool\//' jtools.sh \
     && sed -i -e 's/^JTOOLS_LOG=\${BASE_FOLDER}\/jtools-history.log/JTOOLS_LOG=\/datak\/jtools-history.log/' jtools.sh \
-    
-    #XtermJS WEB Interface for tmux
+    #XtermJS WEB Interface for tmux \
     && cd \
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
@@ -61,7 +59,6 @@ RUN set -x \
     && make && make install && cd \
     && echo "ttyd -p 9001 -R tmux new -A -s ttyd tmux" > ~/red-jor-test/script/web_interface_tmux.sh \
     && cd ~/red-jor-test/ \
-    
     #Link creations for quick access to jtools and storage of the wallets on /datak \ 
     #Other REST calls https://input-output-hk.github.io/jormungandr/jcli/rest.html \
     && echo "/root/red-jor-test/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/red-jor-test/script/jstats.sh \
@@ -83,7 +80,6 @@ RUN set -x \
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.5.5/jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && tar xzvf jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \
     && rm jormungandr-v0.5.5-x86_64-unknown-linux-gnu.tar.gz \                
-    
     #RustUP Installation and other rquirements # https://github.com/input-output-hk/js-chain-libs \
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
     && sh rustup_inst.sh -y \
