@@ -29,7 +29,7 @@ RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash build-essential libssl-dev cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \   
+    && apt-get -yqq install curl wget bash build-essential libssl-dev tmux cmake g++ pkg-config git vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \   
     && mkdir -p /root/red-jor-test \
     && mkdir -p /root/red-jor-test/script \   
     && cd /root/red-jor-test \
