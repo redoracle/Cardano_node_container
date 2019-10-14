@@ -63,7 +63,7 @@ RUN set -x \
     && echo "neofetch --ascii --source ~/red-jor-test/cardano.ascii --color_blocks off --memory_display infobar" > ~/red-jor-test/script/Cardanofetch.sh \
     && echo "JORGN=\$(until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/red-jor-test/script/start-node.sh \
     && echo "JORGP=\$(until RUST_BACKTRACE=FULL /root/red-jor-test/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash adbdd5ede31637f6c9bad5c271eec0bc3d0cb9efb86a5b913bb55cba549d0770; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/red-jor-test/script/start-pool.sh \ 
-    && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo -e \"\$i     \t \$GEO\"; done" > ~/red-jor-test/script/watch_node.sh \
+    && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/red-jor-test/script/watch_node.sh \
     && chmod +x ~/red-jor-test/script/*.sh \
     && chmod +x ~/red-jor-test/*.sh \
     && ln -s ~/red-jor-test/jtools.sh /usr/local/bin/jtools \
