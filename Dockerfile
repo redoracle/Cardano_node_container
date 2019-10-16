@@ -77,9 +77,9 @@ RUN set -x \
     && cd ~/red-jor-test/ \
     && wget https://www.redoracle.com/cardano.ascii \
     && cd ~/red-jor-test/ \
-    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.6.0/jormungandr-v0.6.0-x86_64-unknown-linux-gnu.tar.gz \
-    && tar xzvf jormungandr-v0.6.0-x86_64-unknown-linux-gnu.tar.gz \
-    && rm jormungandr-v0.6.0-x86_64-unknown-linux-gnu.tar.gz \                
+    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.6.1/jormungandr-v0.6.1-x86_64-unknown-linux-gnu.tar.gz \
+    && tar xzvf jormungandr-v0.6.1-x86_64-unknown-linux-gnu.tar.gz \
+    && rm jormungandr-v0.6.1-x86_64-unknown-linux-gnu.tar.gz \                
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
     && sh rustup_inst.sh -y \
     && . $HOME/.cargo/env \
@@ -108,4 +108,4 @@ PATH=/root/red-jor-test/:/root/red-jor-test/script:/bin:/sbin:/usr/bin:/usr/sbin
     # Very important https://github.com/input-output-hk/shelley-testnet/wiki/How-to-setup-a-Jormungandr-Networking--node-(--v0.5.0) \
 #CMD ["/bin/bash", "/root/red-jor-test/script/start-pool.sh"]
 
-EXPOSE 9001 8299 3100 3000 3101
+EXPOSE 9001 3100 3000 3101
