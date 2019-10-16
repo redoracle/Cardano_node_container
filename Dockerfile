@@ -35,10 +35,6 @@ RUN set -x \
     && cd /root/red-jor-test \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && sed -i -e 's/8080/3101/' jtools.sh \
-    && sed -i -e 's/^BASE_FOLDER=~\/jormungandr\//BASE_FOLDER=~\/red-jor-test\//' jtools.sh \
-    && sed -i -e 's/^WALLET_FOLDER=\$BASE_FOLDER\"wallet\\"/WALLET_FOLDER=\/datak\/wallet\//' jtools.sh \
-    && sed -i -e 's/^POOL_FOLDER=\$BASE_FOLDER\"pool\\"/POOL_FOLDER=\/datak\/pool\//' jtools.sh \
-    && sed -i -e 's/^JTOOLS_LOG=\${BASE_FOLDER}\/jtools-history.log/JTOOLS_LOG=\/datak\/jtools-history.log/' jtools.sh \
     && cd /tmp/ \
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
@@ -74,6 +70,8 @@ RUN set -x \
     && ln -s ~/red-jor-test/script/start-node.sh /usr/local/bin/start-node \
     && ln -s ~/red-jor-test/script/start-pool.sh /usr/local/bin/start-pool \
     && ln -s ~/red-jor-test/script/watch_node.sh /usr/local/bin/watch_node \
+    && ln -s ~/red-jor-test/jcli /usr/local/bin/jcli \
+    && ln -s ~/red-jor-test/jormungandr /usr/local/bin/jormungandr \
     && cd ~/red-jor-test/ \
     && wget https://www.redoracle.com/cardano.ascii \
     && cd ~/red-jor-test/ \
