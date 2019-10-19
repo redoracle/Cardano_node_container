@@ -76,9 +76,11 @@ RUN set -x \
     && cd ~/jormungandr/ \
     && wget https://www.redoracle.com/cardano.ascii \
     && cd ~/jormungandr/ \
-    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.6.5/jormungandr-v0.6.5-x86_64-unknown-linux-gnu.tar.gz \
-    && tar xzvf jormungandr-v0.6.5-x86_64-unknown-linux-gnu.tar.gz \
-    && rm jormungandr-v0.6.5-x86_64-unknown-linux-gnu.tar.gz \                
+    && Dwnjor="https://github.com/input-output-hk/jormungandr/releases/download/v0.6.5/jormungandr-v0.6.5-x86_64-unknown-linux-gnu.tar.gz" \
+    && Dwnjorf="jormungandr-v0.6.5-x86_64-unknown-linux-gnu.tar.gz" \
+    && wget $Dwnjor \
+    && tar xzvf $Dwnjorf \
+    && rm $Dwnjorf \                
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
     && sh rustup_inst.sh -y \
     && . $HOME/.cargo/env \
