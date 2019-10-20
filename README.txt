@@ -1,4 +1,5 @@
-Cardano TestNet Phase 2 - Pool node
+
+#Cardano TestNet Phase 2 - Pool node [![Build Status](https://travis-ci.org/redoracle/jormungandrpt.svg?branch=master)](https://travis-ci.org/redoracle/jormungandrpt)
 
 
 Requirements:
