@@ -95,7 +95,9 @@ RUN set -x \
     && wasm-pack build \
     && wasm-pack pack \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  \
-    
+
+WORKDIR /root/
+
 ENV \
 DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
