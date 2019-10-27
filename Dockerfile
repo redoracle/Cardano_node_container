@@ -96,8 +96,6 @@ RUN set -x \
     && wasm-pack pack \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  \
 
-WORKDIR /root/
-
 ENV \
 DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
@@ -111,4 +109,4 @@ PATH=/root/jormungandr/:/root/jormungandr/script:/bin:/sbin:/usr/bin:/usr/sbin:$
     # Very important https://github.com/input-output-hk/shelley-testnet/wiki/How-to-setup-a-Jormungandr-Networking--node-(--v0.5.0) \
 #CMD ["/bin/bash", "/root/jormungandr/script/start-pool.sh"]
 
-EXPOSE 9001 3100 3000 3101
+EXPOSE 9001 3000 3101
