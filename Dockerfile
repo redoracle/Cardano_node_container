@@ -16,7 +16,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.url='https://www.redoracle.com/' \
       org.label-schema.vendor='Red0racle S3curity' \
       org.label-schema.schema-version='1.0' \
-      org.label-schema.docker.cmd='docker run --rm redoracle/cardano-node-docker' \
+      org.label-schema.docker.cmd='docker run -dit redoracle/cardano-node-docker' \
       org.label-schema.docker.cmd.devel='docker run --rm -ti redoracle/cardano-node-docker' \
       org.label-schema.docker.debug='docker logs $CONTAINER' \
       io.github.offensive-security.docker.dockerfile="Dockerfile" \
@@ -29,7 +29,7 @@ RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl wget bash python3.7 python3-requests python3-tabulate build-essential libssl-dev tmux cmake g++ pkg-config git neofetch vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \   
+    && apt-get -yqq install curl wget busybox bash python3.7 python3-requests python3-tabulate build-essential libssl-dev tmux cmake g++ pkg-config git neofetch vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \   
     && mkdir -p /root/jormungandr \
     && mkdir -p /root/jormungandr/script \   
     && cd /root/jormungandr \
@@ -56,6 +56,7 @@ RUN set -x \
     && echo "run-shell ~/.tmux/plugins/tpm/resurrect.tmux" >> ~/.tmux.conf \
     && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
     && cd ~/jormungandr/ \
+    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf" >  ~/jormungandr/script/prtgSens.sh \
     && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jstats.sh \
     && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jstatx.sh \
     && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jshutdown.sh \
@@ -98,6 +99,7 @@ RUN set -x \
     && wasm-pack pack \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  \
 
+WORKDIR /root
 ENV \
 DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
@@ -110,5 +112,7 @@ PATH=/root/jormungandr/:/root/jormungandr/script:/bin:/sbin:/usr/bin:/usr/sbin:$
     # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
     # Very important https://github.com/input-output-hk/shelley-testnet/wiki/How-to-setup-a-Jormungandr-Networking--node-(--v0.5.0) \
 #CMD ["/bin/bash", "/root/jormungandr/script/start-pool.sh"]
+#CMD ["/bin/bash", "/root/jormungandr/script/start-node.sh"]
+#CMD ["/root/jormungandr/script/prtgSens.sh"]
 
 EXPOSE 9001 3000 3101
