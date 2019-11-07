@@ -61,8 +61,8 @@ RUN set -x \
     && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jstatx.sh \
     && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jshutdown.sh \
     && echo "neofetch --ascii --source ~/jormungandr/cardano.ascii --color_blocks off --memory_display infobar" > ~/jormungandr/script/Cardanofetch.sh \
-    && echo "JORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash bdb9357416232fb6726f406af6dbabb7fc7530990ce553a4602d74f86314c8f3; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-node.sh \
-    && echo "JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash bdb9357416232fb6726f406af6dbabb7fc7530990ce553a4602d74f86314c8f3; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-pool.sh \ 
+    && echo "JORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash bad49dbbd149ee6cbe1f172d4a727b5e3cf9ea057651f303758eff9cb6ce8387; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-node.sh \
+    && echo "JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash bad49dbbd149ee6cbe1f172d4a727b5e3cf9ea057651f303758eff9cb6ce8387; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-pool.sh \ 
     && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/jormungandr/script/watch_node.sh \
     && chmod +x ~/jormungandr/script/*.sh \
     && chmod +x ~/jormungandr/*.sh \
