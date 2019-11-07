@@ -23,6 +23,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       io.github.offensive-security.license="GPLv3" \
       MAINTAINER="RedOracle <info@redoracle.com>"
 
+WORKDIR /root
+
 VOLUME /datak
 
 RUN set -x \
@@ -97,9 +99,8 @@ RUN set -x \
     && git submodule update \
     && wasm-pack build \
     && wasm-pack pack \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  
 
-WORKDIR /root
 ENV \
 DEBIAN_FRONTEND noninteractive \
 ENV=/etc/profile \
