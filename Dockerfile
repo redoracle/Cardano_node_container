@@ -81,7 +81,7 @@ RUN set -x \
     && cd ~/jormungandr/ \
     && wget https://www.redoracle.com/cardano.ascii \
     && cd ~/jormungandr/ \
-    && Dwnjor="hhttps://github.com/input-output-hk/jormungandr/releases/download/v0.7.0/jormungandr-v0.7.0-x86_64-unknown-linux-gnu.tar.gz" \
+    && Dwnjor="https://github.com/input-output-hk/jormungandr/releases/download/v0.7.0/jormungandr-v0.7.0-x86_64-unknown-linux-gnu.tar.gz" \
     && Dwnjorf="jormungandr-v0.7.0-x86_64-unknown-linux-gnu.tar.gz" \
     && wget $Dwnjor \
     && tar xzvf $Dwnjorf \
