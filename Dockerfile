@@ -58,8 +58,8 @@ RUN set -x \
     && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jstatx.sh \
     && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jshutdown.sh \
     && echo "neofetch --ascii --source ~/jormungandr/cardano.ascii --color_blocks off --memory_display infobar" > ~/jormungandr/script/Cardanofetch.sh \
-    && echo "JORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash bdb9357416232fb6726f406af6dbabb7fc7530990ce553a4602d74f86314c8f3; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-node.sh \
-    && echo "JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash bdb9357416232fb6726f406af6dbabb7fc7530990ce553a4602d74f86314c8f3; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-pool.sh \ 
+    && echo "JORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash 0c6db1bc6b4794c8d3913529ebe6ba986684c3b23bfe4879fde37dabbc71ba93; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-node.sh \
+    && echo "JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/ZiaAda/secret.yaml --genesis-block-hash 0c6db1bc6b4794c8d3913529ebe6ba986684c3b23bfe4879fde37dabbc71ba93; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-pool.sh \ 
     && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/jormungandr/script/watch_node.sh \
     && chmod +x ~/jormungandr/script/*.sh \
     && chmod +x ~/jormungandr/*.sh \
@@ -76,8 +76,8 @@ RUN set -x \
     && cd ~/jormungandr/ \
     && wget https://www.redoracle.com/cardano.ascii \
     && cd ~/jormungandr/ \
-    && Dwnjor="https://github.com/input-output-hk/jormungandr/releases/download/v0.7.0-rc4/jormungandr-v0.7.0-rc4-x86_64-unknown-linux-gnu.tar.gz" \
-    && Dwnjorf="jormungandr-v0.7.0-rc4-x86_64-unknown-linux-gnu.tar.gz" \
+    && Dwnjor="https://github.com/input-output-hk/jormungandr/releases/download/v0.7.0/jormungandr-v0.7.0-x86_64-unknown-linux-gnu.tar.gz" \
+    && Dwnjorf="jormungandr-v0.7.0-x86_64-unknown-linux-gnu.tar.gz" \
     && wget $Dwnjor \
     && tar xzvf $Dwnjorf \
     && rm $Dwnjorf \                
