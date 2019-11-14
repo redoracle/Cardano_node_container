@@ -103,6 +103,7 @@ RUN set -x \
 
 ENV \
 DEBIAN_FRONTEND noninteractive \
+LANG C.UTF-8 \
 ENV=/etc/profile \
 USER=root \
 PATH=/root/jormungandr/:/root/jormungandr/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
