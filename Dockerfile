@@ -38,10 +38,13 @@ RUN set -x \
     && mkdir -p /root/jormungandr \
     && mkdir -p /root/jormungandr/script \   
     && cd /root/jormungandr \
+    && mkdir /root/jormungandr/tools \ 
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
+    && mv Alternate-Jormungandr-Testnet/scripts ./scripts \
+    && rm -rf Alternate-Jormungandr-Testnet \
     && wget https://raw.githubusercontent.com/input-output-hk/jormungandr-nix/master/scripts/janalyze.py \
-    && sed -i -e 's/8080/3101/' jtools.sh \
+    && sed -i -e 's/8081/3101/' jtools.sh \
     && sed -i -e 's/3001/3101/' janalyze.py \
     && cd /tmp/ \
     && git clone https://github.com/tsl0922/ttyd.git \
@@ -61,24 +64,25 @@ RUN set -x \
     && echo "run-shell ~/.tmux/plugins/tpm/resurrect.tmux" >> ~/.tmux.conf \
     && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
     && cd ~/jormungandr/ \
-    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf" >  ~/jormungandr/script/prtgSens.sh \
-    && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jstats.sh \
-    && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jstatx.sh \
-    && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/script/jshutdown.sh \
-    && echo "neofetch --ascii --source ~/jormungandr/cardano.ascii --color_blocks off --memory_display infobar" > ~/jormungandr/script/Cardanofetch.sh \
-    && echo -e "HASH=\$(cat /datak/genesis-hash.txt);\nJORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-node.sh \
-    && echo -e "HASH=\$(cat /datak/genesis-hash.txt);\nJORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/script/start-pool.sh \ 
-    && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/jormungandr/script/watch_node.sh \
-    && chmod +x ~/jormungandr/script/*.sh \
+    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf" >  ~/jormungandr/tools/prtgSens.sh \
+    && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
+    && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
+    && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jshutdown.sh \
+    && echo "neofetch --ascii --source ~/jormungandr/cardano.ascii --color_blocks off --memory_display infobar" > ~/jormungandr/tools/Cardanofetch.sh \
+    && echo -e "HASH=\$(cat /datak/genesis-hash.txt);\nJORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-node.sh \
+    && echo -e "HASH=\$(cat /datak/genesis-hash.txt);\nJORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-pool.sh \ 
+    && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/jormungandr/tools/watch_node.sh \
+    && chmod +x ~/jormungandr/tools/*.sh \
+    && chmod +x ~/jormungandr/scripts/* \
     && chmod +x ~/jormungandr/*.sh \
     && ln -s ~/jormungandr/jtools.sh /usr/local/bin/jtools \
-    && ln -s ~/jormungandr/script/jstats.sh /usr/local/bin/jstats \
-    && ln -s ~/jormungandr/script/jstatx.sh /usr/local/bin/jstatx \
-    && ln -s ~/jormungandr/script/jshutdown.sh /usr/local/bin/jshutdown \
-    && ln -s ~/jormungandr/script/jshutdown.sh /usr/local/bin/stop-node \
-    && ln -s ~/jormungandr/script/start-node.sh /usr/local/bin/start-node \
-    && ln -s ~/jormungandr/script/start-pool.sh /usr/local/bin/start-pool \
-    && ln -s ~/jormungandr/script/watch_node.sh /usr/local/bin/watch_node \
+    && ln -s ~/jormungandr/tools/jstats.sh /usr/local/bin/jstats \
+    && ln -s ~/jormungandr/tools/jstatx.sh /usr/local/bin/jstatx \
+    && ln -s ~/jormungandr/tools/jshutdown.sh /usr/local/bin/jshutdown \
+    && ln -s ~/jormungandr/tools/jshutdown.sh /usr/local/bin/stop-node \
+    && ln -s ~/jormungandr/tools/start-node.sh /usr/local/bin/start-node \
+    && ln -s ~/jormungandr/tools/start-pool.sh /usr/local/bin/start-pool \
+    && ln -s ~/jormungandr/tools/watch_node.sh /usr/local/bin/watch_node \
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
     && cd ~/jormungandr/ \
@@ -109,7 +113,7 @@ DEBIAN_FRONTEND noninteractive \
 LANG C.UTF-8 \
 ENV=/etc/profile \
 USER=root \
-PATH=/root/jormungandr/:/root/jormungandr/script:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
+PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
 
     # Faucet examples \
     # https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
