@@ -51,9 +51,9 @@ RUN set -x \
     && cd ttyd && mkdir build && cd build \
     && cmake .. \
     && make && make install \
-    && echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/script/web_interface_tmux.sh \
-    && echo "tmux attach" >> ~/jormungandr/script/web_interface_tmux.sh \
-    && echo "tmux source ~/.tmux.conf" >> ~/jormungandr/script/web_interface_tmux.sh \
+    && echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_interface_tmux.sh \
+    && echo "tmux attach" >> ~/jormungandr/tools/web_interface_tmux.sh \
+    && echo "tmux source ~/.tmux.conf" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && cp /usr/share/doc/tmux/example_tmux.conf ~/.tmux.conf \
     && echo "set -g @plugin 'tmux-plugins/tmux-resurrect'" >> ~/.tmux.conf \
     && echo "set -g @resurrect-save 'S'" >> ~/.tmux.conf \
