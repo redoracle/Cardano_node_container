@@ -35,13 +35,13 @@ RUN set -x \
     && pip3 install pprint \
     && pip3 install ruamel.yaml \
     && pip3 install db-sqlite3 \
-    && mkdir -p /root/jormungandr \
-    && mkdir -p /root/jormungandr/script \   
+    && pip3 install pycrypto \
+    && git clone https://github.com/Kodex-Data-Systems/Casper.git \
+    && mkdir -p /root/jormungandr/tools \   
     && cd /root/jormungandr \
-    && mkdir /root/jormungandr/tools \ 
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
-    && mv Alternate-Jormungandr-Testnet/scripts ./scripts \
+    && mv Alternate-Jormungandr-Testnet/scripts/jormu-helper-scripts ./scripts \
     && rm -rf Alternate-Jormungandr-Testnet \
     && wget https://raw.githubusercontent.com/input-output-hk/jormungandr-nix/master/scripts/janalyze.py \
     && sed -i -e 's/8081/3101/' jtools.sh \
@@ -73,8 +73,7 @@ RUN set -x \
     && echo -e "HASH=\$(cat /datak/genesis-hash.txt);\nJORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-pool.sh \ 
     && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/jormungandr/tools/watch_node.sh \
     && chmod +x ~/jormungandr/tools/*.sh \
-    && chmod +x ~/jormungandr/scripts/* \
-    && chmod +x ~/jormungandr/*.sh \
+    && chmod +x ~/jormungandr/scripts/*.sh \
     && ln -s ~/jormungandr/jtools.sh /usr/local/bin/jtools \
     && ln -s ~/jormungandr/tools/jstats.sh /usr/local/bin/jstats \
     && ln -s ~/jormungandr/tools/jstatx.sh /usr/local/bin/jstatx \
@@ -106,6 +105,7 @@ RUN set -x \
     && git submodule update \
     && wasm-pack build \
     && wasm-pack pack \
+    && mv js-chain-libs ../ \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  
 
 ENV \
