@@ -36,7 +36,7 @@ RUN set -x \
     && mkdir -p /root/jormungandr/script \   
     && cd /root/jormungandr \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
-    && wget https://raw.githubusercontent.com/input-output-hk/shelley-testnet/master/scripts/delegate-account.sh \
+    && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
     && wget https://raw.githubusercontent.com/input-output-hk/jormungandr-nix/master/scripts/janalyze.py \
     && sed -i -e 's/8080/3101/' jtools.sh \
     && sed -i -e 's/3001/3101/' janalyze.py \
