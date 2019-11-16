@@ -35,7 +35,9 @@ RUN set -x \
     && pip3 install pprint \
     && pip3 install ruamel.yaml \
     && pip3 install db-sqlite3 \
-    && pip3 install pycrypto \
+    && pip3 install pycrypto 
+
+RUN \
     && git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && mkdir -p /root/jormungandr/tools \   
     && cd /root/jormungandr \
@@ -63,7 +65,9 @@ RUN set -x \
     && echo "set -g default-terminal "xterm-256color" >> ~/.tmux.conf \
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
     && echo "run-shell ~/.tmux/plugins/tpm/resurrect.tmux" >> ~/.tmux.conf \
-    && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
+    && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf 
+
+RUN \
     && cd ~/jormungandr/ \
     && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf" >  ~/jormungandr/tools/prtgSens.sh \
     && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
@@ -85,9 +89,7 @@ RUN set -x \
     && ln -s ~/jormungandr/tools/watch_node.sh /usr/local/bin/watch_node \
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
-    && cd ~/jormungandr/ \
     && wget https://www.redoracle.com/cardano.ascii \
-    && cd ~/jormungandr/ \
     && Dwnjor="https://github.com/input-output-hk/jormungandr/releases/download/v0.7.0/jormungandr-v0.7.0-x86_64-unknown-linux-gnu.tar.gz" \
     && Dwnjorf="jormungandr-v0.7.0-x86_64-unknown-linux-gnu.tar.gz" \
     && wget $Dwnjor \
