@@ -60,6 +60,7 @@ RUN set -x \
     && echo "set -g @resurrect-restore 'R'" >> ~/.tmux.conf \
     && echo "set -g @plugin 'tmux-plugins/tmux-continuum'" >> ~/.tmux.conf \
     && echo "set -g @colors-solarized 'dark'" >> ~/.tmux.conf \
+    && echo "set -g default-terminal "xterm-256color" >> ~/.tmux.conf \
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
     && echo "run-shell ~/.tmux/plugins/tpm/resurrect.tmux" >> ~/.tmux.conf \
     && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
@@ -105,6 +106,7 @@ RUN set -x \
     && git submodule update \
     && wasm-pack build \
     && wasm-pack pack \
+    && cd .. \
     && mv js-chain-libs ../ \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  
 
