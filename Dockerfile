@@ -51,8 +51,9 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
     && cmake .. \
-    && make && make install \
-    && echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_interface_tmux.sh \
+    && make && make install 
+    
+RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && echo "tmux attach" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && echo "tmux source ~/.tmux.conf" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && cp /usr/share/doc/tmux/example_tmux.conf ~/.tmux.conf \
@@ -61,12 +62,11 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && echo "set -g @resurrect-restore 'R'" >> ~/.tmux.conf \
     && echo "set -g @plugin 'tmux-plugins/tmux-continuum'" >> ~/.tmux.conf \
     && echo "set -g @colors-solarized 'dark'" >> ~/.tmux.conf \
-    && echo "set -g default-terminal "xterm-256color" >> ~/.tmux.conf \
+    && echo "set -g default-terminal \"xterm-256color\"" >> ~/.tmux.conf \
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
-    && echo "run-shell ~/.tmux/plugins/tpm/resurrect.tmux" >> ~/.tmux.conf \
-    && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf 
-
-RUN cd ~/jormungandr/ \
+    && echo "run-shell '~/.tmux/plugins/tpm/resurrect.tmux'" >> ~/.tmux.conf \
+    && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
+    && cd ~/jormungandr/ \
     && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf" >  ~/jormungandr/tools/prtgSens.sh \
     && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
     && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
