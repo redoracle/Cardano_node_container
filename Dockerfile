@@ -37,8 +37,7 @@ RUN set -x \
     && pip3 install db-sqlite3 \
     && pip3 install pycrypto 
 
-RUN \
-    && git clone https://github.com/Kodex-Data-Systems/Casper.git \
+RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && mkdir -p /root/jormungandr/tools \   
     && cd /root/jormungandr \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
@@ -67,8 +66,7 @@ RUN \
     && echo "run-shell ~/.tmux/plugins/tpm/resurrect.tmux" >> ~/.tmux.conf \
     && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf 
 
-RUN \
-    && cd ~/jormungandr/ \
+RUN cd ~/jormungandr/ \
     && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf" >  ~/jormungandr/tools/prtgSens.sh \
     && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
     && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
