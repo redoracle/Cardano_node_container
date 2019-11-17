@@ -54,8 +54,8 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && make && make install 
     
 RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_interface_tmux.sh \
-    && echo "tmux attach" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && echo "tmux source ~/.tmux.conf" >> ~/jormungandr/tools/web_interface_tmux.sh \
+    && echo "tmux -u attach" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && cp /usr/share/doc/tmux/example_tmux.conf ~/.tmux.conf \
     && echo "set -g @plugin 'tmux-plugins/tmux-resurrect'" >> ~/.tmux.conf \
     && echo "set -g @resurrect-save 'S'" >> ~/.tmux.conf \
