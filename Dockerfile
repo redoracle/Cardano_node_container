@@ -91,9 +91,8 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && JORROOT="https://github.com" \
     && wget https://github.com/input-output-hk/jormungandr/releases/latest \
     && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| cut -d "\"" -f 2) \
-    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7)
-    && Dwnjor="$JORROOT$JORPLINK" \
-    && wget $Dwnjor \
+    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
+    && wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
     && rm $Dwnjorf latest\                
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
