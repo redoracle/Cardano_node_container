@@ -90,7 +90,7 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && wget https://www.redoracle.com/cardano.ascii \
     && JORROOT="https://github.com" \
     && wget https://github.com/input-output-hk/jormungandr/releases/latest \
-    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| cut -d "\"" -f 2) \
+    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
     && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
     && wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
