@@ -1,7 +1,7 @@
 # Cardano TestNet Phase 2 - Pool node [![Build Status](https://travis-ci.org/redoracle/jormungandrpt.svg?branch=master)](https://travis-ci.org/redoracle/jormungandrpt)
 
 
-Requirements:
+Requirements: 
 
 1) an external folder mapped to the internal container folder used store Node Info and configuration "node-config.yaml".
 I used "/home/xxx/DATA/CardanoNodeTest/"
