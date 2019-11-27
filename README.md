@@ -24,6 +24,7 @@ start-pool
  
 GeoIP netstat watching:
 watch_node
+
 ----------------------------------------------------------------------
 Based on: https://input-output-hk.github.io/jormungandr/jcli/rest.html
 
