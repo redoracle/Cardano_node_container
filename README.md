@@ -9,7 +9,7 @@ I used "/home/xxx/DATA/CardanoNodeTest/"
 3) linux server (I use Debian)
 
 
-Available tools (included in ENV PATH):
+Available tools (included in ENV PATH): 
 
 Ufficial tool for creating wallet and pools
 jtools
