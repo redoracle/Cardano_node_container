@@ -91,7 +91,7 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.0-rc1/jormungandr-v0.8.0-rc1-x86_64-unknown-linux-gnu.tar.gz \
     && Dwnjorf="jormungandr-v0.8.0-rc1-x86_64-unknown-linux-gnu.tar.gz" \
     && tar xzvf $Dwnjorf \
-    && rm $Dwnjorf latest\                
+    && rm $Dwnjorf \                
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
     && sh rustup_inst.sh -y \
     && . $HOME/.cargo/env \
