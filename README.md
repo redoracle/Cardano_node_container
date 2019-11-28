@@ -4,7 +4,7 @@
 Requirements:
 
 1) an external folder mapped to the internal container folder used store Node Info and configuration "node-config.yaml".
-I used "/home/xxx/DATA/CardanoNodeTest/"
+I used "/home/xxx/DATA/CardanoNodeTest/" 
 2) public IP
 3) linux server (I use Debian)
 
