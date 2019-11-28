@@ -9,12 +9,12 @@ before_script:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
 script:
-  - docker build --compress -t "${IMAGE_NAME}:pre" .
+  - docker build --compress -t "${IMAGE_NAME}:prere" .
 
 after_script:
 
 deploy:
   provider: script
-  script: docker push "${IMAGE_NAME}:pre"
+  script: docker push "${IMAGE_NAME}:prere"
   on:
     branch: node
