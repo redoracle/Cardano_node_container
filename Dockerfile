@@ -88,8 +88,8 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
     && wget https://www.redoracle.com/cardano.ascii \
-    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.0-rc2/jormungandr-v0.8.0-rc2-x86_64-unknown-linux-gnu.tar.gz \
-    && Dwnjorf="jormungandr-v0.8.0-rc2-x86_64-unknown-linux-gnu.tar.gz" \
+    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.0-rc3/jormungandr-v0.8.0-rc3-x86_64-unknown-linux-gnu.tar.gz \
+    && Dwnjorf="jormungandr-v0.8.0-rc3-x86_64-unknown-linux-gnu.tar.gz" \
     && tar xzvf $Dwnjorf \
     && rm $Dwnjorf \                
     && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
