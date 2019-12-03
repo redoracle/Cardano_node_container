@@ -50,7 +50,7 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && cd /root/jormungandr/tools \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
-    && mv Alternate-Jormungandr-Testnet/scripts/jormu-helper-scripts ./scripts \
+    && mv Alternate-Jormungandr-Testnet/scripts/jormu-helper-scripts /root/jormungandr/scripts \
     && rm -rf Alternate-Jormungandr-Testnet \
     && wget https://raw.githubusercontent.com/input-output-hk/jormungandr-nix/master/scripts/janalyze.py \
     && sed -i -e 's/8081/3101/' jtools.sh \
