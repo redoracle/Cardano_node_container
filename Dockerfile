@@ -39,7 +39,7 @@ RUN set -x \
 
 RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && mkdir -p /root/jormungandr/tools \   
-    && cd /root/jormungandr \
+    && cd /root/jormungandr/tools \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
     && mv Alternate-Jormungandr-Testnet/scripts/jormu-helper-scripts ./scripts \
@@ -66,11 +66,21 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
     && echo "run-shell '~/.tmux/plugins/tpm/resurrect.tmux'" >> ~/.tmux.conf \
     && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
+    && wget https://www.redoracle.com/cardano.ascii \
+    && JORROOT="https://github.com" \
+    && wget https://github.com/input-output-hk/jormungandr/releases/latest \
+    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
+    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
+    && wget $JORROOT$JORPLINK \
+    && tar xzvf $Dwnjorf \
+    && rm $Dwnjorf latest \
     && cd ~/jormungandr/ \
-    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf" >  ~/jormungandr/tools/prtgSens.sh \
-    && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
-    && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
-    && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jshutdown.sh \
+    && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
+    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf \&" >  ~/jormungandr/tools/prtgSens.sh \
+    && echo "jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
+    && echo "jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
+    && echo "jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jshutdown.sh \
+    && echo "jcli rest v0 stake get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jpools.sh \
     && echo "neofetch --ascii --source ~/jormungandr/cardano.ascii --color_blocks off --memory_display infobar" > ~/jormungandr/tools/Cardanofetch.sh \
     && echo "HASH=\$(cat /datak/genesis-hash.txt); JORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-node.sh \
     && echo "HASH=\$(cat /datak/genesis-hash.txt); JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-pool.sh \ 
@@ -87,29 +97,6 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && ln -s ~/jormungandr/tools/watch_node.sh /usr/local/bin/watch_node \
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
-    && wget https://www.redoracle.com/cardano.ascii \
-    && JORROOT="https://github.com" \
-    && wget https://github.com/input-output-hk/jormungandr/releases/latest \
-    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
-    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
-    && wget $JORROOT$JORPLINK \
-    && tar xzvf $Dwnjorf \
-    && rm $Dwnjorf latest\                
-    && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
-    && sh rustup_inst.sh -y \
-    && . $HOME/.cargo/env \
-    && rustup install stable \
-    && curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf > wasm.sh \
-    && sh wasm.sh \
-    && rm rustup_inst.sh wasm.sh \
-    && git clone https://github.com/input-output-hk/js-chain-libs.git \
-    && cd js-chain-libs \
-    && git submodule init \
-    && git submodule update \
-    && wasm-pack build \
-    && wasm-pack pack \
-    && cd .. \
-    && mv js-chain-libs ../ \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  
 
 ENV \
