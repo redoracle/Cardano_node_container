@@ -38,6 +38,13 @@ RUN set -x \
     && pip3 install pycrypto 
 
 RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
+    && JORROOT="https://github.com" \
+    && wget https://github.com/input-output-hk/jormungandr/releases/latest \
+    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
+    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
+    && wget $JORROOT$JORPLINK \
+    && tar xzvf $Dwnjorf \
+    && rm $Dwnjorf latest \
     && mkdir -p /root/jormungandr/tools \   
     && cd /root/jormungandr/tools \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
@@ -67,13 +74,6 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && echo "run-shell '~/.tmux/plugins/tpm/resurrect.tmux'" >> ~/.tmux.conf \
     && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
     && wget https://www.redoracle.com/cardano.ascii \
-    && JORROOT="https://github.com" \
-    && wget https://github.com/input-output-hk/jormungandr/releases/latest \
-    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
-    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
-    && wget $JORROOT$JORPLINK \
-    && tar xzvf $Dwnjorf \
-    && rm latest \
     && cd ~/jormungandr/ \
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf \&" >  ~/jormungandr/tools/prtgSens.sh \
