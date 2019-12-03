@@ -96,7 +96,6 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && ln -s ~/jormungandr/tools/start-node.sh /usr/local/bin/start-node \
     && ln -s ~/jormungandr/tools/start-pool.sh /usr/local/bin/start-pool \
     && ln -s ~/jormungandr/tools/watch_node.sh /usr/local/bin/watch_node \
-    && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  
 
