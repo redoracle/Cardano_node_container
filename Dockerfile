@@ -38,6 +38,8 @@ RUN set -x \
     && pip3 install pycrypto 
 
 RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
+    && mkdir -p /root/jormungandr/tools \ 
+    && cd /root/jormungandr/ \   
     && JORROOT="https://github.com" \
     && wget https://github.com/input-output-hk/jormungandr/releases/latest \
     && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
@@ -45,7 +47,6 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
     && rm $Dwnjorf latest \
-    && mkdir -p /root/jormungandr/tools \   
     && cd /root/jormungandr/tools \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
