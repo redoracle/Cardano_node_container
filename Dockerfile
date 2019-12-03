@@ -73,7 +73,7 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
     && wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
-    && rm $Dwnjorf latest \
+    && rm latest \
     && cd ~/jormungandr/ \
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf \&" >  ~/jormungandr/tools/prtgSens.sh \
