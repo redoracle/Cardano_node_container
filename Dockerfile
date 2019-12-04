@@ -67,7 +67,7 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && echo "run-shell '~/.tmux/plugins/tpm/resurrect.tmux'" >> ~/.tmux.conf \
     && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
     && cd ~/jormungandr/ \
-    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf \&" >  ~/jormungandr/tools/prtgSens.sh \
+    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf &" >  ~/jormungandr/tools/prtgSens.sh \
     && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
     && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
     && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jshutdown.sh \
