@@ -88,25 +88,10 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
     && wget https://www.redoracle.com/cardano.ascii \
-    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.0-rc7/jormungandr-v0.8.0-rc7-x86_64-unknown-linux-gnu.tar.gz \
-    && Dwnjorf="jormungandr-v0.8.0-rc7-x86_64-unknown-linux-gnu.tar.gz" \
+    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.0-rc8/jormungandr-v0.8.0-rc8-x86_64-unknown-linux-gnu.tar.gz \
+    && Dwnjorf="jormungandr-v0.8.0-rc8-x86_64-unknown-linux-gnu.tar.gz" \
     && tar xzvf $Dwnjorf \
     && rm $Dwnjorf \                
-    && curl https://sh.rustup.rs -sSf > rustup_inst.sh \        
-    && sh rustup_inst.sh -y \
-    && . $HOME/.cargo/env \
-    && rustup install stable \
-    && curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf > wasm.sh \
-    && sh wasm.sh \
-    && rm rustup_inst.sh wasm.sh \
-    && git clone https://github.com/input-output-hk/js-chain-libs.git \
-    && cd js-chain-libs \
-    && git submodule init \
-    && git submodule update \
-    && wasm-pack build \
-    && wasm-pack pack \
-    && cd .. \
-    && mv js-chain-libs ../ \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  
 
 ENV \
