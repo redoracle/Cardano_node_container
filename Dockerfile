@@ -104,3 +104,4 @@ PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/
 
 
 EXPOSE 9001 3000 3101
+CMD ["/bin/bash", "/root/jormungandr/script/start-node.sh &"]
