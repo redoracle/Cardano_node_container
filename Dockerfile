@@ -73,7 +73,7 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jshutdown.sh \
     && echo "neofetch --ascii --source ~/jormungandr/cardano.ascii --color_blocks off --memory_display infobar" > ~/jormungandr/tools/Cardanofetch.sh \
     && echo "HASH=\$(cat /datak/genesis-hash.txt); JORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash \$HASH &> /tmp/pool.log; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-node.sh \
-    && echo "HASH=\$(cat /datak/genesis-hash.txt); JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash \$HASH &> /tmp/node.log; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-pool.sh \ 
+    && echo "HASH=\$(cat /datak/genesis-hash.txt); JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash \$HASH &> /tmp/pool.log; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-pool.sh \ 
     && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/jormungandr/tools/watch_node.sh \
     && echo "tail -f /tmp/{pool,node}.log | sed --unbuffered -e 's/\(.*incoming.*\)/\o033[35m\1\o033[39m/' -e 's/\(.*INFO.*\)/\o033[39m\1\o033[39m/' -e 's/\(.*WARN.*\)/\o033[33m\1\o033[39m/' -e 's/\(.*ERR.*\)/\o033[31m\1\o033[39m/'" > ~/jormungandr/tools/watch_log.sh \ 
     && chmod +x ~/jormungandr/tools/*.sh \
@@ -89,8 +89,8 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
     && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
     && wget https://www.redoracle.com/cardano.ascii \
-    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.0-rc8/jormungandr-v0.8.0-rc8-x86_64-unknown-linux-gnu.tar.gz \
-    && Dwnjorf="jormungandr-v0.8.0-rc8-x86_64-unknown-linux-gnu.tar.gz" \
+    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.0-rc9/jormungandr-v0.8.0-rc9-x86_64-unknown-linux-gnu.tar.gz \
+    && Dwnjorf="jormungandr-v0.8.0-rc9-x86_64-unknown-linux-gnu.tar.gz" \
     && tar xzvf $Dwnjorf \
     && rm $Dwnjorf \                
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  
