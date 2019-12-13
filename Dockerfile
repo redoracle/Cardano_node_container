@@ -60,7 +60,7 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
     && cmake .. \
-    && make && make install 
+    && make && make install  
     
 RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && echo "tmux source ~/.tmux.conf" >> ~/jormungandr/tools/web_interface_tmux.sh \
