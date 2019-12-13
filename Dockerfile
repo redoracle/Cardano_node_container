@@ -53,9 +53,7 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && cmake .. \
     && make && make install 
     
-RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
-    && mkdir -p /root/jormungandr/tools \ 
-    && cd /root/jormungandr/ \   
+RUN cd /root/jormungandr/ \   
     && JORROOT="https://github.com" \
     && wget https://github.com/input-output-hk/jormungandr/releases/latest \
     && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
