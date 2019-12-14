@@ -65,7 +65,7 @@ RUN cd /root/jormungandr/ \
     && git clone https://github.com/input-output-hk/cardano-wallet.git \
     && cd cardano-wallet \
     && stack build --test --no-run-tests \
-    && stack install \
+    #&& stack install \
     && echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && echo "tmux source ~/.tmux.conf" >> ~/jormungandr/tools/web_interface_tmux.sh \
     && echo "tmux -u attach" >> ~/jormungandr/tools/web_interface_tmux.sh \
