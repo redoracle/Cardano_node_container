@@ -41,12 +41,12 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && mkdir -p /root/jormungandr/tools \ 
     && cd /root/jormungandr/ \   
     && JORROOT="https://github.com" \
-    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.2/jormungandr-v0.8.2-x86_64-unknown-linux-gnu.tar.gz \
-    #&& JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
-    && Dwnjorf="jormungandr-v0.8.2-x86_64-unknown-linux-gnu.tar.gz" \
-    #&& wget $JORROOT$JORPLINK \
+    && wget https://github.com/input-output-hk/jormungandr/releases/latest \
+    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
+    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
+    && wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
-    && rm $Dwnjorf  \
+    && rm $Dwnjorf latest \
     && cd /root/jormungandr/tools \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
