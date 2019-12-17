@@ -46,7 +46,7 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && Dwnjorf="jormungandr-v0.8.2-x86_64-unknown-linux-gnu.tar.gz" \
     #&& wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
-    && rm $Dwnjorf latest \
+    && rm $Dwnjorf  \
     && cd /root/jormungandr/tools \
     && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
     && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
