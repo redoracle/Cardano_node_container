@@ -78,6 +78,7 @@ RUN echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_inte
     && wget https://www.redoracle.com/cardano.ascii \
     && cd ~/jormungandr/ \
     && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
+    && echo "export JORMUNGANDR_RESTAPI_URL=http://127.0.0.1:3101/api" >> ~/.bashrc \
     && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf \&" >  ~/jormungandr/tools/prtgSens.sh \
     && echo "jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
     && echo "jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
