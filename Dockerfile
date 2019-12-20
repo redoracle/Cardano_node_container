@@ -55,12 +55,12 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     
 RUN cd /root/jormungandr/ \   
     && JORROOT="https://github.com" \
-    && wget https://github.com/input-output-hk/jormungandr/releases/latest \
+    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.5-alpha1/jormungandr-v0.8.5-alpha1-x86_64-unknown-linux-gnu.tar.gz \
     && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
-    && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
+    && Dwnjorf=jormungandr-v0.8.5-alpha1-x86_64-unknown-linux-gnu.tar.gz \
     && wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
-    && rm $Dwnjorf latest \
+    && rm $Dwnjorf  \
     && curl -sSL https://get.haskellstack.org/ | sh \
     && git clone https://github.com/input-output-hk/cardano-wallet.git \
     && cd cardano-wallet \
