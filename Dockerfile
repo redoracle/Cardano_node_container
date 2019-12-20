@@ -34,7 +34,7 @@ RUN set -x \
     && apt-get -yqq install curl wget busybox bash python3.7 python3-dev python3-pip python3-requests python3-cryptography python3-tabulate build-essential libssl-dev tmux cmake g++ pkg-config git neofetch vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \    
     && pip3 install pprint \
     && pip3 install ruamel.yaml \
-    && pip3 install db-sqlite3 \
+    && pip3 install db-sqlite3  \
     && pip3 install pycrypto 
 
 RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
