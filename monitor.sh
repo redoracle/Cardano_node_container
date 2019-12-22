@@ -66,13 +66,13 @@ do
                 NEXT_SLOTS=$(echo $LEADERS| grep -A 1 scheduled_at_time  | grep $DAY'T'$ORA | wc -l);
                 NEXT_SLOTS_LIST=$(echo $LEADERS | grep -A 1 scheduled_at_time  | grep $DAY'T'$ORA | awk '{print $2}'| cut -d "T" -f 2|cut -d "+" -f 1| sort);
                 BLOCKS_MADE=$(echo $LEADERS | grep Block | wc |  awk '{print $1}');
-                watch_node=$(netstat -anl  | grep tcp | grep EST |  awk '{print $ 5}' | cut -d ':' -f 1 | sort | uniq);
+                watch_node=$(netstat -anl  | grep tcp | grep EST |  awk '{print $ 5}' | cut -d ':' -f 1 | sort | uniq | wc -l);
                 BLOCKS_REJECTED=$(echo $LEADERS | grep Rejected | wc -l );
                 REASON_REJECTED=$(echo $LEADERS| grep -A1 Rejected );
                 echo "-> Uptime:$uptime               - BlockHeight: --> $lastBlockHeight <--";
                 echo "-> LastBlockTx:$lastBlockTx       - txRecvCnt:$txRecvCnt ";
                 echo "->                       - blockRecvCnt:$blockRecvCnt";
-                echo "-> Established:$nodesEstablished  - Uniq:$(echo $watch_node| wc -l )";
+                echo "-> Established:$nodesEstablished  - Uniq:$watch_node";
                 echo "-> Quarantined:$Quarantined       - NotPublic:$Quarantined_non_public";
                 echo " ";
                 echo -e "-> Last Hash:\\n$LAST_HASH";
