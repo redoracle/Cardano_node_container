@@ -61,9 +61,9 @@ do
                 BLOCKS_REJECTED=$(jcli rest v0 leaders logs get | grep Rejected | wc -l );
                 REASON_REJECTED=$(jcli rest v0 leaders logs get | grep -A1 Rejected );
                 echo "-> Uptime:$uptime                 - BlockHeight: --> $lastBlockHeight <--";
-                echo "-> LastBlockTx:$lastBlockTx       - txRecvCnt:$txRecvCnt ";
-                echo "->                       - blockRecvCnt:$blockRecvCnt";
-                echo "-> Established:$nodesEstablished  - Uniq:$(watch_node| wc -l )";
+                echo "-> LastBlockTx:$lastBlockTx               - txRecvCnt:$txRecvCnt ";
+                echo "->                        - blockRecvCnt:$blockRecvCnt";
+                echo "-> Established:$nodesEstablished          - Uniq:$(watch_node| wc -l )";
                 echo "-> Quarantined:$Quarantined       - NotPublic:$Quarantined_non_public";
                 echo " ";
                 echo -e "-> Last Hash:\\n$LAST_HASH";
