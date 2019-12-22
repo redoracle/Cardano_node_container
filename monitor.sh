@@ -7,7 +7,9 @@
 
 #!/bin/bash
 
-CLI="$(which jcli)"
+CLI="$(which jcli)";
+
+[ -z "${CLI}" ] && [ -f jcli ] && CLI="./jcli"
 
 [ -z ${JORMUNGANDR_RESTAPI_URL} ] && echo -e "[ERROR] - you must set the shell variable \$JORMUNGANDR_RESTAPI_URL, \\ncheck your node config for the rest: listen_address to identify the URL, \\neg: export JORMUNGANDR_RESTAPI_URL=http://127.0.0.1:3101/api" && exit 1
 
@@ -59,16 +61,18 @@ do
         else
                 clear;
                 echo "$DATE   $HOSTN  Epoch:$lastBlockDateSlot - All OK! - "
-                SLOTS=$($CLI rest v0 leaders logs get | grep scheduled_at_time | wc -l)
-                NEXT_SLOTS=$($CLI rest v0 leaders logs get | grep -A 1 scheduled_at_time  | grep $DAY'T'$ORA | wc -l);
-                NEXT_SLOTS_LIST=$($CLI rest v0 leaders logs get | grep -A 1 scheduled_at_time  | grep $DAY'T'$ORA | awk '{print $2}'| cut -d "T" -f 2|cut -d "+" -f 1| sort);
-                BLOCKS_MADE=$($CLI rest v0 leaders logs get | grep Block | wc |  awk '{print $1}');
-                BLOCKS_REJECTED=$($CLI rest v0 leaders logs get | grep Rejected | wc -l );
-                REASON_REJECTED=$($CLI rest v0 leaders logs get | grep -A1 Rejected );
-                echo "-> Uptime:$uptime                 - BlockHeight: --> $lastBlockHeight <--";
+                LEADERS=$($CLI rest v0 leaders logs get)
+                SLOTS=$(echo $LEADERS | grep scheduled_at_time | wc -l)
+                NEXT_SLOTS=$(echo $LEADERS| grep -A 1 scheduled_at_time  | grep $DAY'T'$ORA | wc -l);
+                NEXT_SLOTS_LIST=$(echo $LEADERS | grep -A 1 scheduled_at_time  | grep $DAY'T'$ORA | awk '{print $2}'| cut -d "T" -f 2|cut -d "+" -f 1| sort);
+                BLOCKS_MADE=$(echo $LEADERS | grep Block | wc |  awk '{print $1}');
+                watch_node=$(netstat -anl  | grep tcp | grep EST |  awk '{print $ 5}' | cut -d ':' -f 1 | sort | uniq);
+                BLOCKS_REJECTED=$(echo $LEADERS | grep Rejected | wc -l );
+                REASON_REJECTED=$(echo $LEADERS| grep -A1 Rejected );
+                echo "-> Uptime:$uptime               - BlockHeight: --> $lastBlockHeight <--";
                 echo "-> LastBlockTx:$lastBlockTx       - txRecvCnt:$txRecvCnt ";
                 echo "->                       - blockRecvCnt:$blockRecvCnt";
-                echo "-> Established:$nodesEstablished  - Uniq:$(watch_node| wc -l )";
+                echo "-> Established:$nodesEstablished  - Uniq:$(echo $watch_node| wc -l )";
                 echo "-> Quarantined:$Quarantined       - NotPublic:$Quarantined_non_public";
                 echo " ";
                 echo -e "-> Last Hash:\\n$LAST_HASH";
