@@ -7,8 +7,6 @@
 
 #!/bin/bash
 
-export JORMUNGANDR_REWARD_DUMP_DIRECTORY="/datak/rewards";
-
 CLI="$(which jcli)"
 
 [ -z ${JORMUNGANDR_RESTAPI_URL} ] && echo -e "[ERROR] - you must set the shell variable \$JORMUNGANDR_RESTAPI_URL, \\ncheck your node config for the rest: listen_address to identify the URL, \\neg: export JORMUNGANDR_RESTAPI_URL=http://127.0.0.1:3101/api" && exit 1
