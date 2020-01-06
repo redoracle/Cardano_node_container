@@ -113,6 +113,7 @@ PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/
     # https://github.com/input-output-hk/js-chain-libs \
     # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
     # Very important https://github.com/input-output-hk/shelley-testnet/wiki/How-to-setup-a-Jormungandr-Networking--node-(--v0.5.0) \
-CMD ["bash", "/root/jormungandr/script/start-node.sh"]
+ENTRYPOINT [ "/root/jormungandr/script/start-node.sh" ]
+#CMD ["bash", "/root/jormungandr/script/start-node.sh"]
 
 EXPOSE 9001 3000 3101
