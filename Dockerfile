@@ -116,4 +116,4 @@ PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/
 ENTRYPOINT [ "/root/jormungandr/tools/start-node.sh" ]
 CMD [ "&" ]
 
-EXPOSE 9100 9001 3000 3101
+EXPOSE 9100 9001 3000 3101 
