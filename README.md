@@ -1,5 +1,12 @@
 # Cardano TestNet Pool - Pool node [![Build Status](https://travis-ci.org/redoracle/jormungandrpt.svg?branch=master)](https://travis-ci.org/redoracle/jormungandrpt)
 
+Features:
+ - Node Stats
+ - Pool Stats (optional)
+ - 
+ -
+ -
+ 
 
 Requirements:
 
@@ -11,10 +18,18 @@ I used "/home/xxx/DATA/CardanoNodeTest/"
 
 Available tools (included in ENV PATH):
 
-Ufficial tool for creating wallet and pools
-jtools
+Un-Ufficial tool for 
+creating wallet and pools: jtools
+monitoring the node: jstatus
+                      - PoolTool sendtips.sh functions integrated if ENV vars are declared.  
+                      - Fork/Sanity Check (by simultaneolsy checking PoolTool and ShellyExplorer)
+                      - Node Stuck 
+                       1) by setting max block heghit difference: "Block_diff" (default 50)
+                       2) by setting FLATCYCLE: period which will be considered before triggering RECOVERY RESTART procedure
+                      - Alerting: IM settings and samples for Gotify and Telegram 
+                      - Jormugandr Storage Auto Backup (only when the node is healthy)
 
-Derivate command from jcli:
+Derivate commands from jcli:
 jstats
 jstatx
 jshutdown
@@ -51,48 +66,10 @@ LEADERS
 ----------------------------------------------------------------------
 
 
----- OUTSIDE THE CONTAINER ----
+
+Logging:
 
 
-Example of my node-config.yaml:
------------------------------------------------
-log:
-  format: "plain"
-  level: "info"
-  output: "stderr"
-p2p:
-  listen_address: "/ip4/0.0.0.0/tcp/3000"
-  public_address: "/ip4/xxx.xxx.xxx.xxx/tcp/8299"
-  topics_of_interest:
-    blocks: "high"
-    messages: "high"
-  trusted_peers:
-   - "/ip4/3.123.177.192/tcp/3000"
-   - "/ip4/3.123.155.47/tcp/3000"
-   - "/ip4/52.57.157.167/tcp/3000"
-   - "/ip4/3.112.185.217/tcp/3000"
-   - "/ip4/18.140.134.230/tcp/3000"
-   - "/ip4/18.139.40.4/tcp/3000"
-   - "/ip4/3.115.57.216/tcp/3000"
-   - "/ip4/185.161.193.61/tcp/8299"
-   - "/ip4/18.139.40.4/tcp/3000"
-   - "/ip4/52.57.157.167/tcp/3000"
-   - "/ip4/3.123.155.47/tcp/3000"
-   - "/ip4/3.115.57.216/tcp/3000"
-   - "/ip4/3.112.185.217/tcp/3000"
-   - "/ip4/18.139.40.4/tcp/3000"
-   - "/ip4/18.140.134.230/tcp/3000"
-rest:
-  listen: "127.0.0.1:3101"
-leadership:
-    log_ttl: 1h
-    garbage_collection_interval: 15m
-mempool:
-    fragment_ttl: 30m
-    log_ttl: 1h
-    garbage_collection_interval: 15m
-storage: "/datak/jormungandr"
------------------------------------------------
 
 Note: xxx.xxx.xxx.xxx is your public IP.
 
@@ -110,6 +87,8 @@ Once inside the container:
 
 2) run the jcli stats command:
 # jstats
+or
+# watch -n 5 jstats
 
 3) Use jtools to create a wallet, to create a wallet named Andromeda do:
 # jtools  wallet new Andromeda
