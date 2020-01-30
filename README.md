@@ -3,7 +3,7 @@
 Features:
  - Node Stats
  - Pool Stats (optional)
- - 
+ - PoolTool stats
  -
  -
  
