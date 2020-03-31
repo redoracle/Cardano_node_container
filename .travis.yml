@@ -9,12 +9,12 @@ before_script:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
 script:
-  - docker build --compress -t "${IMAGE_NAME}:latest" .
+  - docker build --compress -t "${IMAGE_NAME}:haskell" .
 
 after_script:
 
 deploy:
   provider: script
-  script: docker push "${IMAGE_NAME}:latest"
+  script: docker push "${IMAGE_NAME}:haskell"
   on:
     branch: master
