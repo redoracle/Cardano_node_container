@@ -31,14 +31,19 @@ RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libtinfo-dev vim watch net-tools geoip-bin geoip-database \    
+    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev vim watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
+    && install -d -m755 -o $(id -u) -g $(id -g) /nix \
+    && curl https://nixos.org/nix/install | sh \
     && export PATH=$PATH:/root/.local/bin \
+    # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
+    && git clone https://github.com/input-output-hk/cardano-byron-proxy \
+    && git clone https://github.com/input-output-hk/cardano-explorer \
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 ENV \
 DEBIAN_FRONTEND noninteractive \
