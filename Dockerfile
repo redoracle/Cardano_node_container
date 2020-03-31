@@ -39,9 +39,6 @@ RUN set -x \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
     && cd /datak/ptn/ \
-    && curl -o /datak/ptn/config/pbft_config.json https://raw.githubusercontent.com/cardano-community/guild-operators/master/files/cnode_config.yaml.sample \
-    && curl  https://raw.githubusercontent.com/cardano-community/guild-operators/master/files/genesis.json | jq '.' > /datak/ptn/pbft_genesis.json \
-    && sed -i -e "s#GenesisFile:.*#GenesisFile: `pwd`/pbft_genesis.json#" /datak/ptn/config/pbft_config.json \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && nix-collect-garbage -d
 
