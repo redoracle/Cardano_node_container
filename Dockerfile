@@ -11,7 +11,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.version=$VERSION \
       org.label-schema.name='Cardano Node by Redoracle' \
-      org.label-schema.description='UNOfficial Cardano Node docker image' \
+      org.label-schema.description='UNOfficial Cardano Haskell Node docker image' \
       org.label-schema.usage='https://www.redoracle.com/docker/' \
       org.label-schema.url='https://www.redoracle.com/' \
       org.label-schema.vendor='Red0racle S3curity' \
@@ -31,88 +31,27 @@ RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl grc wget busybox bash python3.7 python3-dev python3-pip python3-requests python3-cryptography python3-tabulate build-essential libssl-dev tmux cmake g++ pkg-config git neofetch vim-common libwebsockets-dev libjson-c-dev npm watch jq watch net-tools geoip-bin geoip-database \    
-    && pip3 install pprint \
-    && pip3 install ruamel.yaml \
-    && pip3 install db-sqlite3 \
-    && pip3 install pycrypto 
-
-RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
-    && mkdir -p /root/jormungandr/tools \   
-    && cd /root/jormungandr \
-    && wget https://raw.githubusercontent.com/clio-one/cardano-on-the-rocks/master/scripts/Jormungandr/jtools.sh \
-    && git clone https://github.com/rdlrt/Alternate-Jormungandr-Testnet.git \
-    && mv Alternate-Jormungandr-Testnet/scripts/jormu-helper-scripts ./scripts \
-    && rm -rf Alternate-Jormungandr-Testnet \
-    && wget https://raw.githubusercontent.com/input-output-hk/jormungandr-nix/master/scripts/janalyze.py \
-    && sed -i -e 's/8081/3101/' jtools.sh \
-    && sed -i -e 's/3001/3101/' janalyze.py \
-    && cd /tmp/ \
-    && git clone https://github.com/tsl0922/ttyd.git \
-    && cd ttyd && mkdir build && cd build \
-    && cmake .. \
-    && make && make install 
-    
-RUN cd /root/jormungandr/ \   
-    && JORROOT="https://github.com" \
-    && wget https://github.com/input-output-hk/jormungandr/releases/download/v0.8.5/jormungandr-v0.8.5-x86_64-unknown-linux-gnu.tar.gz \
-    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
-    && Dwnjorf=jormungandr-v0.8.5-x86_64-unknown-linux-gnu.tar.gz \
-    && wget $JORROOT$JORPLINK \
-    && tar xzvf $Dwnjorf \
-    && rm $Dwnjorf  \
+    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libtinfo-dev vim watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
-    && git clone https://github.com/input-output-hk/cardano-wallet.git \
-    && cd cardano-wallet \
-    #&& stack build --test --no-run-tests  \
-    #&& stack install \
-    && echo "ttyd -p 9001 -R tmux new -A -s ttyd &" >> ~/jormungandr/tools/web_interface_tmux.sh \
-    && echo "tmux source ~/.tmux.conf" >> ~/jormungandr/tools/web_interface_tmux.sh \
-    && echo "tmux -u attach" >> ~/jormungandr/tools/web_interface_tmux.sh \
-    && cp /usr/share/doc/tmux/example_tmux.conf ~/.tmux.conf \
-    && echo "set -g @plugin 'tmux-plugins/tmux-resurrect'" >> ~/.tmux.conf \
-    && echo "set -g @resurrect-save 'S'" >> ~/.tmux.conf \
-    && echo "set -g @resurrect-restore 'R'" >> ~/.tmux.conf \
-    && echo "set -g @plugin 'tmux-plugins/tmux-continuum'" >> ~/.tmux.conf \
-    && echo "set -g @colors-solarized 'dark'" >> ~/.tmux.conf \
-    && echo "set -g default-terminal \"xterm-256color\"" >> ~/.tmux.conf \
-    && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm \
-    && echo "run-shell '~/.tmux/plugins/tpm/resurrect.tmux'" >> ~/.tmux.conf \
-    && echo "run -b '~/.tmux/plugins/tpm/tpm'" >> ~/.tmux.conf \
-    && cd ~/jormungandr/ \
-    && echo "busybox httpd -p 0.0.0.0:8203 -f -v -h /datak/myBusybox/www/ -c /datak/myBusybox/httpd.conf &" >  ~/jormungandr/tools/prtgSens.sh \
-    && echo "/root/jormungandr/jcli rest v0 node stats get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstats.sh \
-    && echo "/root/jormungandr/jcli rest v0 utxo get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jstatx.sh \
-    && echo "root/jormungandr/jcli rest v0 stake-pools get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jlpools.sh \
-    && echo "/root/jormungandr/jcli rest v0 stake-pool get \$1 --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jpool.sh \
-    && echo "/root/jormungandr/jcli rest v0 shutdown get --host \"http://127.0.0.1:3101/api\"" > ~/jormungandr/tools/jshutdown.sh \
-    && echo "neofetch --ascii --source ~/jormungandr/cardano.ascii --color_blocks off --memory_display infobar" > ~/jormungandr/tools/Cardanofetch.sh \
-    && echo "HASH=\$(cat /datak/genesis-hash.txt); JORGN=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-node.sh \
-    && echo "HASH=\$(cat /datak/genesis-hash.txt); JORGP=\$(until RUST_BACKTRACE=FULL /root/jormungandr/jormungandr --config /datak/node-config.yaml --secret /datak/pool/Stakelovelace/secret.yaml --genesis-block-hash \$HASH; do echo \"Jormungandr crashed with exit code \$?.  Respawning..\" >&2; sleep 1; done);" >> ~/jormungandr/tools/start-pool.sh \ 
-    && echo "for i in \$(netstat -anl  | grep tcp | grep EST |  awk '{print \$ 5}' | cut -d ':' -f 1 | sort | uniq); do GEO=\$(geoiplookup \$i | sed -r 's/^GeoIP Country Edition://g'); echo \"\$i     \t \$GEO\"; done" > ~/jormungandr/tools/watch_node.sh \
-    && echo "tail -f /tmp/{pool,node}.log | sed --unbuffered -e 's/\(.*incoming.*\)/\o033[35m\1\o033[39m/' -e 's/\(.*INFO.*\)/\o033[39m\1\o033[39m/' -e 's/\(.*WARN.*\)/\o033[33m\1\o033[39m/' -e 's/\(.*ERR.*\)/\o033[31m\1\o033[39m/'" > ~/jormungandr/tools/watch_log.sh \ 
-    && chmod +x ~/jormungandr/tools/*.sh \
-    && chmod +x ~/jormungandr/scripts/*.sh \
-    && ln -s ~/jormungandr/jtools.sh /usr/local/bin/jtools \
-    && ln -s ~/jormungandr/tools/jstats.sh /usr/local/bin/jstats \
-    && ln -s ~/jormungandr/tools/jstatx.sh /usr/local/bin/jstatx \
-    && ln -s ~/jormungandr/tools/jshutdown.sh /usr/local/bin/jshutdown \
-    && ln -s ~/jormungandr/tools/jshutdown.sh /usr/local/bin/stop-node \
-    && ln -s ~/jormungandr/tools/start-node.sh /usr/local/bin/start-node \
-    && ln -s ~/jormungandr/tools/start-pool.sh /usr/local/bin/start-pool \
-    && ln -s ~/jormungandr/tools/watch_node.sh /usr/local/bin/watch_node \
-    && ln -s ~/jormungandr/jcli /usr/local/bin/jcli \
-    && ln -s ~/jormungandr/jormungandr /usr/local/bin/jormungandr \
-    && wget https://www.redoracle.com/cardano.ascii \                
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+    && export PATH=$PATH:/root/.local/bin \
+    && git clone https://github.com/input-output-hk/cardano-node.git \
+    && cd cardano-node/ && stack build && stack install && . ~/.profile \
+    && git clone https://github.com/cardano-community/guild-operators.git \
+    && mkdir -p /datak/ptn/{config,data,db} \
+    && cd /datak/ptn/ \
+    && curl -o /datak/ptn/config/pbft_config.json https://raw.githubusercontent.com/cardano-community/guild-operators/master/files/cnode_config.yaml.sample \
+    && curl  https://raw.githubusercontent.com/cardano-community/guild-operators/master/files/genesis.json | jq '.' > /datak/ptn/pbft_genesis.json \
+    && sed -i -e "s#GenesisFile:.*#GenesisFile: `pwd`/pbft_genesis.json#" /datak/ptn/config/pbft_config.json \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && nix-collect-garbage -d
 
 ENV \
 DEBIAN_FRONTEND noninteractive \
 LANG C.UTF-8 \
 ENV=/etc/profile \
 USER=root \
-PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
+PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/sbin:/usr/bin:/usr/sbin:/root/.local/bin:$PATH 
 
 
-EXPOSE 9001 3000 3101
+EXPOSE 9000 3000 3101
 #CMD ["/bin/bash", "~/jormungandr/tools/start-node.sh &"]
