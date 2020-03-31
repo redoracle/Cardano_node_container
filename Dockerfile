@@ -38,9 +38,7 @@ RUN set -x \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
-    && cd /datak/ptn/ \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && nix-collect-garbage -d
 
 ENV \
 DEBIAN_FRONTEND noninteractive \
