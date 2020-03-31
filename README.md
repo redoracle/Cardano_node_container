@@ -1,4 +1,4 @@
-# Cardano TestNet Pool Container and/or Pool node [![Build Status](https://travis-ci.org/redoracle/jormungandrpt.svg?branch=master)](https://travis-ci.org/redoracle/jormungandrpt)
+# Cardano TestNet Haskell Node  [![Build Status](https://travis-ci.org/redoracle/jormungandrpt.svg?branch=haskell)](https://travis-ci.org/redoracle/jormungandrpt)
 
 
 Requirements: 
