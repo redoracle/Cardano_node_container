@@ -17,4 +17,4 @@ deploy:
   provider: script
   script: docker push "${IMAGE_NAME}:haskell"
   on:
-    branch: master
+    branch: haskell
