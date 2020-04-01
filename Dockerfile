@@ -29,10 +29,10 @@ VOLUME /datak
 
 RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
-    && apt-get -yqq update &> /dev/null \                                                       
-    && apt-get -yqq dist-upgrade &> /dev/null \
-    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database &> /dev/null \    
-    && curl -sSL https://get.haskellstack.org/ | sh &> /dev/null \
+    && apt-get -yqq update  \                                                       
+    && apt-get -yqq dist-upgrade \
+    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database \    
+    && curl -sSL https://get.haskellstack.org/ | sh \
     # NIX INSTALLER
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
     && groupadd -g 30000 --system nixbld \
@@ -48,9 +48,9 @@ RUN set -x \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md 
     # CARDANO EXPLORER 
     && git clone https://github.com/input-output-hk/cardano-explorer \
-    && cd cardano-explorer && /root/.nix-profile/bin/nix-build -A cardano-explorer-node -o explorer-node &> /dev/null \
-    && scripts/postgresql-setup.sh --createdb \
-    && PGPASSFILE=config/pgpass explorer-node/bin/cardano-explorer-node --config config/explorer-mainnet-config.yaml --genesis-file ../cardano-node/configuration/mainnet-genesis.json --socket-path ../cardano-node/state-node-mainnet/node.socket --schema-dir schema \
+    #&& cd cardano-explorer && /root/.nix-profile/bin/nix-build -A cardano-explorer-node -o explorer-node \
+    #&& scripts/postgresql-setup.sh --createdb \
+    #&& PGPASSFILE=config/pgpass explorer-node/bin/cardano-explorer-node --config config/explorer-mainnet-config.yaml --genesis-file ../cardano-node/configuration/mainnet-genesis.json --socket-path ../cardano-node/state-node-mainnet/node.socket --schema-dir schema \
     # CARDANO DB 
     && git clone https://github.com/input-output-hk/cardano-db-sync.git \
     # CARDANO NODE 
