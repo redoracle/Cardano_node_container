@@ -37,7 +37,7 @@ RUN set -x \
     #&& localedef -f UTF-8 -i en_US -A /usr/share/locale/locale.alias -c en_US.UTF-8 \
     && groupadd -g 30000 --system nixbld \
     && useradd --home-dir /var/empty --gid 30000 --groups nixbld --no-user-group --system --shell /usr/sbin/nologin --uid $((30000 + 1)) --password "!" nixbld1 \
-    && mkdir -p && /root/.config/nix && /root/.nixpkgs && echo "{ allowUnfree = true; }" > /root/.nixpkgs/config.nix \
+    && mkdir -p /root/.config/nix /root/.nixpkgs && echo "{ allowUnfree = true; }" > /root/.nixpkgs/config.nix \
     && curl https://nixos.org/nix/install | sh \
     && export PATH=$PATH:/root/.local/bin \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
