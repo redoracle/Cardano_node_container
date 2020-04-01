@@ -34,7 +34,6 @@ RUN set -x \
     && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev vim watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
-    #&& localedef -f UTF-8 -i en_US -A /usr/share/locale/locale.alias -c en_US.UTF-8 \
     && groupadd -g 30000 --system nixbld \
     && useradd --home-dir /var/empty --gid 30000 --groups nixbld --no-user-group --system --shell /usr/sbin/nologin --uid $((30000 + 1)) --password "!" nixbld1 \
     && mkdir -p /root/.config/nix /root/.nixpkgs && echo "{ allowUnfree = true; }" > /root/.nixpkgs/config.nix \
@@ -42,22 +41,24 @@ RUN set -x \
     && export NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
     && export PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin \
     && export SUDO_FORCE_REMOVE=yes \
+    && curl https://nixos.org/nix/install | sh \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
-    && curl https://nixos.org/nix/install | sh \
-    && export PATH=$PATH:/root/.local/bin \
-    # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
+    # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md 
+    # CARDANO EXPLORER 
     && git clone https://github.com/input-output-hk/cardano-byron-proxy \
     && git clone https://github.com/input-output-hk/cardano-explorer \
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
+    # TTYD WEB
     && cd /tmp/ \
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
-    && cmake .. \
-    && make && make install \
+    && cmake ..  && make && make install \
+    && cd ~/ \
+    # CLEANING
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
     && /root/.nix-profile/bin/nix-channel --remove nixpkgs \
