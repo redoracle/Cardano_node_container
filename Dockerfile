@@ -16,8 +16,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.url='https://www.redoracle.com/' \
       org.label-schema.vendor='Red0racle S3curity' \
       org.label-schema.schema-version='1.0' \
-      org.label-schema.docker.cmd='docker run -dit redoracle/cardano-node-docker' \
-      org.label-schema.docker.cmd.devel='docker run --rm -ti redoracle/cardano-node-docker' \
+      org.label-schema.docker.cmd='docker run -dit redoracle/cardano-haskell-node' \
+      org.label-schema.docker.cmd.devel='docker run --rm -ti redoracle/cardano-haskell-node' \
       org.label-schema.docker.debug='docker logs $CONTAINER' \
       io.github.offensive-security.docker.dockerfile="Dockerfile" \
       io.github.offensive-security.license="GPLv3" \
@@ -34,6 +34,10 @@ RUN set -x \
     && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev vim watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
+    && localedef -f UTF-8 -i en_US -A /usr/share/locale/locale.alias -c en_US.UTF-8 \
+    && groupadd -g 30000 --system nixbld \
+    && useradd --home-dir /var/empty --gid 30000 --groups nixbld --no-user-group --system --shell /usr/sbin/nologin --uid $((30000 + 1)) --password "!" nixbld1 \
+    && mkdir -p && /root/.config/nix && /root/.nixpkgs && echo "{ allowUnfree = true; }" > /root/.nixpkgs/config.nix \
     && curl https://nixos.org/nix/install | sh \
     && export PATH=$PATH:/root/.local/bin \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
@@ -43,14 +47,19 @@ RUN set -x \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+    && apt-get clean &&  apt autoremove --purge -y \
+    && rm -rf /var/lib/apt/lists/* && nix-channel --remove nixpkgs && rm -rf /nix/store/*-nixpkgs* \
+    && nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
-DEBIAN_FRONTEND noninteractive \
+DEBIAN_FRONTEND=noninteractive \
 LANG C.UTF-8 \
 ENV=/etc/profile \
 USER=root \
-PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/sbin:/usr/bin:/usr/sbin:/root/.local/bin:$PATH 
+NIX_PATH=nixpkgs=/root/.nix-defexpr/channels/nixpkgs:/root/.nix-defexpr/channels \
+NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+SUDO_FORCE_REMOVE=yes \
+PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin
 
 
 EXPOSE 9000 3000 3101
