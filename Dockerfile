@@ -52,7 +52,7 @@ RUN set -x \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
-    # TTYD WEB
+    # TTYD WEB 
     && cd /tmp/ \
     && git clone https://github.com/tsl0922/ttyd.git \
     && cd ttyd && mkdir build && cd build \
