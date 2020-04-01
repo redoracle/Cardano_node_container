@@ -38,6 +38,12 @@ RUN set -x \
     && groupadd -g 30000 --system nixbld \
     && useradd --home-dir /var/empty --gid 30000 --groups nixbld --no-user-group --system --shell /usr/sbin/nologin --uid $((30000 + 1)) --password "!" nixbld1 \
     && mkdir -p /root/.config/nix /root/.nixpkgs && echo "{ allowUnfree = true; }" > /root/.nixpkgs/config.nix \
+    && export NIX_PATH=nixpkgs=/root/.nix-defexpr/channels/nixpkgs:/root/.nix-defexpr/channels \
+    && export NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+    && export PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    && export SUDO_FORCE_REMOVE=yes \
+    && nix-channel --update \
+    && nix-env -iA nixpkgs.nix \
     && curl https://nixos.org/nix/install | sh \
     && export PATH=$PATH:/root/.local/bin \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
@@ -49,9 +55,9 @@ RUN set -x \
     && mkdir -p /datak/ptn/{config,data,db} \
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
-    #&& nix-channel --remove nixpkgs 
-    #&& rm -rf /nix/store/*-nixpkgs* \
-    #&& nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store \
+    && nix-channel --remove nixpkgs 
+    && rm -rf /nix/store/*-nixpkgs* \
+    && nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store \
     && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
