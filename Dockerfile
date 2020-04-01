@@ -48,8 +48,11 @@ RUN set -x \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
     && apt-get clean &&  apt autoremove --purge -y \
-    && rm -rf /var/lib/apt/lists/* && nix-channel --remove nixpkgs && rm -rf /nix/store/*-nixpkgs* \
-    && nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store && rm -rf /tmp/* /var/tmp/* 
+    && rm -rf /var/lib/apt/lists/* \
+    #&& nix-channel --remove nixpkgs 
+    #&& rm -rf /nix/store/*-nixpkgs* \
+    #&& nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store \
+    && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
 DEBIAN_FRONTEND=noninteractive \
