@@ -31,7 +31,7 @@ RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev vim ttyd watch net-tools geoip-bin geoip-database \    
+    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev vim watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
     #&& localedef -f UTF-8 -i en_US -A /usr/share/locale/locale.alias -c en_US.UTF-8 \
@@ -53,6 +53,11 @@ RUN set -x \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
+    && cd /tmp/ \
+    && git clone https://github.com/tsl0922/ttyd.git \
+    && cd ttyd && mkdir build && cd build \
+    && cmake .. \
+    && make && make install \
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
     && /root/.nix-profile/bin/nix-channel --remove nixpkgs \
