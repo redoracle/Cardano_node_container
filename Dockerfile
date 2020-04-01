@@ -42,8 +42,8 @@ RUN set -x \
     && export NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
     && export PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin \
     && export SUDO_FORCE_REMOVE=yes \
-    && nix-channel --update \
-    && nix-env -iA nixpkgs.nix \
+    #&& nix-channel --update \
+    #&& nix-env -iA nixpkgs.nix \
     && curl https://nixos.org/nix/install | sh \
     && export PATH=$PATH:/root/.local/bin \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
