@@ -53,7 +53,7 @@ RUN set -x \
 
 ENV \
 DEBIAN_FRONTEND=noninteractive \
-LANG C.UTF-8 \
+LANG=C.UTF-8 \
 ENV=/etc/profile \
 USER=root \
 NIX_PATH=nixpkgs=/root/.nix-defexpr/channels/nixpkgs:/root/.nix-defexpr/channels \
