@@ -40,7 +40,7 @@ RUN set -x \
     && mkdir -p /root/.config/nix /root/.nixpkgs && echo "{ allowUnfree = true; }" > /root/.nixpkgs/config.nix \
     && export NIX_PATH=nixpkgs=/root/.nix-defexpr/channels/nixpkgs:/root/.nix-defexpr/channels \
     && export NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
-    && export PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    && export PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin \
     && export SUDO_FORCE_REMOVE=yes \
     && nix-channel --update \
     && nix-env -iA nixpkgs.nix \
