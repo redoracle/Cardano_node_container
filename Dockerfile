@@ -55,9 +55,9 @@ RUN set -x \
     && mkdir -p /datak/ptn/{config,data,db} \
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
-    #&& nix-channel --remove nixpkgs \
-    #&& rm -rf /nix/store/*-nixpkgs* \
-    #&& nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store \
+    # && nix-channel --remove nixpkgs \
+    # && rm -rf /nix/store/*-nixpkgs* \
+    # && nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store \
     && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
