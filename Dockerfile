@@ -29,10 +29,10 @@ VOLUME /datak
 
 RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
-    && apt-get -yqq update \                                                       
-    && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database \    
-    && curl -sSL https://get.haskellstack.org/ | sh \
+    && apt-get -yqq update &> /dev/null \                                                       
+    && apt-get -yqq dist-upgrade &> /dev/null \
+    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database &> /dev/null \    
+    && curl -sSL https://get.haskellstack.org/ | sh &> /dev/null \
     # NIX INSTALLER
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
     && groupadd -g 30000 --system nixbld \
@@ -42,13 +42,13 @@ RUN set -x \
     && export NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
     && export PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin \
     && export SUDO_FORCE_REMOVE=yes \
-    && curl https://nixos.org/nix/install | sh \
+    && curl https://nixos.org/nix/install | sh &> /dev/null \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md 
     # CARDANO EXPLORER 
     && git clone https://github.com/input-output-hk/cardano-explorer \
-    && cd cardano-explorer && nix-build -A cardano-explorer-node -o explorer-node \
+    && cd cardano-explorer && /root/.nix-profile/bin/nix-build -A cardano-explorer-node -o explorer-node &> /dev/null \
     && scripts/postgresql-setup.sh --createdb \
     && PGPASSFILE=config/pgpass explorer-node/bin/cardano-explorer-node --config config/explorer-mainnet-config.yaml --genesis-file ../cardano-node/configuration/mainnet-genesis.json --socket-path ../cardano-node/state-node-mainnet/node.socket --schema-dir schema \
     # CARDANO DB 
