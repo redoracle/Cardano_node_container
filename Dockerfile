@@ -31,7 +31,7 @@ RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
     && apt-get -yqq update \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev vim watch net-tools geoip-bin geoip-database \    
+    && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev vim ttyd watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
     #&& localedef -f UTF-8 -i en_US -A /usr/share/locale/locale.alias -c en_US.UTF-8 \
@@ -42,8 +42,8 @@ RUN set -x \
     && export NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
     && export PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin \
     && export SUDO_FORCE_REMOVE=yes \
-    #&& nix-channel --update \
-    #&& nix-env -iA nixpkgs.nix \
+    && /root/.nix-profile/bin/nix-channel --update \
+    && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
     && curl https://nixos.org/nix/install | sh \
     && export PATH=$PATH:/root/.local/bin \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
@@ -55,9 +55,9 @@ RUN set -x \
     && mkdir -p /datak/ptn/{config,data,db} \
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
-    # && nix-channel --remove nixpkgs \
-    # && rm -rf /nix/store/*-nixpkgs* \
-    # && nix-collect-garbage -d && nix-store --verify --check-contents && nix optimise-store \
+    && /root/.nix-profile/bin/nix-channel --remove nixpkgs \
+    && rm -rf /nix/store/*-nixpkgs* \
+    && /root/.nix-profile/bin/nix-collect-garbage -d && /root/.nix-profile/bin/nix-store --verify --check-contents && /root/.nix-profile/bin/nix optimise-store \
     && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
