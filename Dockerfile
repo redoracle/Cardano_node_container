@@ -46,13 +46,6 @@ RUN set -x \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
     # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md 
-    # CARDANO EXPLORER 
-    && git clone https://github.com/input-output-hk/cardano-explorer \
-    #&& cd cardano-explorer && /root/.nix-profile/bin/nix-build -A cardano-explorer-node -o explorer-node \
-    #&& scripts/postgresql-setup.sh --createdb \
-    #&& PGPASSFILE=config/pgpass explorer-node/bin/cardano-explorer-node --config config/explorer-mainnet-config.yaml --genesis-file ../cardano-node/configuration/mainnet-genesis.json --socket-path ../cardano-node/state-node-mainnet/node.socket --schema-dir schema \
-    # CARDANO DB 
-    && git clone https://github.com/input-output-hk/cardano-db-sync.git \
     # CARDANO NODE 
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
