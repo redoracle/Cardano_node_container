@@ -54,15 +54,15 @@ RUN set -x \
     # TTYD WEB 
     && cd /tmp/ \
     && git clone https://github.com/tsl0922/ttyd.git \
-    && cd ttyd && mkdir build && cd build \
-    && cmake ..  && make && make install \
+    #&& cd ttyd && mkdir build && cd build \
+    #&& cmake ..  && make && make install \
     && cd ~/ \
     # CLEANING
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
-    && /root/.nix-profile/bin/nix-channel --remove nixpkgs \
-    && rm -rf /nix/store/*-nixpkgs* \
-    && /root/.nix-profile/bin/nix-collect-garbage -d && /root/.nix-profile/bin/nix-store --verify --check-contents && /root/.nix-profile/bin/nix optimise-store \
+    #&& /root/.nix-profile/bin/nix-channel --remove nixpkgs \
+    #&& rm -rf /nix/store/*-nixpkgs* \
+    #&& /root/.nix-profile/bin/nix-collect-garbage -d && /root/.nix-profile/bin/nix-store --verify --check-contents && /root/.nix-profile/bin/nix optimise-store \
     && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
