@@ -33,7 +33,7 @@ RUN set -x \
     && apt-get -yqq dist-upgrade \
     && apt-get -yqq install curl git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
-    # NIX INSTALLER
+    # NIX INSTALLER \
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
     && groupadd -g 30000 --system nixbld \
     && useradd --home-dir /var/empty --gid 30000 --groups nixbld --no-user-group --system --shell /usr/sbin/nologin --uid $((30000 + 1)) --password "!" nixbld1 \
@@ -45,8 +45,8 @@ RUN set -x \
     && curl https://nixos.org/nix/install | sh \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
-    # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md 
-    # CARDANO NODE 
+    # https://github.com/input-output-hk/cardano-explorer/blob/master/doc/building-running.md \
+    # CARDANO NODE \
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node/ && stack build && stack install && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
@@ -57,14 +57,16 @@ RUN set -x \
     #&& cd ttyd && mkdir build && cd build \
     #&& cmake ..  && make && make install \
     && cd ~/ \
-    && echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr curl ifconfig.me --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
+    && echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr `curl ifconfig.me` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
     && chmod +x /entry-point; \
-    # CLEANING
+    # CLEANING \
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
     && /root/.nix-profile/bin/nix-channel --remove nixpkgs \
     && rm -rf /nix/store/*-nixpkgs* \
-    && /root/.nix-profile/bin/nix-collect-garbage -d && /root/.nix-profile/bin/nix-store --verify --check-contents && /root/.nix-profile/bin/nix optimise-store \
+    && /root/.nix-profile/bin/nix-collect-garbage -d \
+    && /root/.nix-profile/bin/nix-store --verify --check-contents \
+    && /root/.nix-profile/bin/nix optimise-store \
     && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
