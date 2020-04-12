@@ -51,7 +51,10 @@ RUN set -x \
     && stack install \
     && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
-    && mkdir -p /datak/ptn/{config,data,db} 
+    && mkdir -p /datak/ptn/{config,data,db} \
+    && cd ~/ \
+    && echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr `curl ifconfig.me` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
+    && chmod +x /entry-point 
 
     
 
