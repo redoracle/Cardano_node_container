@@ -57,14 +57,14 @@ RUN set -x \
     #&& cd ttyd && mkdir build && cd build \
     #&& cmake ..  && make && make install \
     && cd ~/ \
-    && echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr \`curl ifconfig.me\` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
+    && echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr \\`curl ifconfig.me\\` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
     && chmod +x /entry-point; \
     # CLEANING
     && apt-get clean &&  apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
-    #&& /root/.nix-profile/bin/nix-channel --remove nixpkgs \
-    #&& rm -rf /nix/store/*-nixpkgs* \
-    #&& /root/.nix-profile/bin/nix-collect-garbage -d && /root/.nix-profile/bin/nix-store --verify --check-contents && /root/.nix-profile/bin/nix optimise-store \
+    && /root/.nix-profile/bin/nix-channel --remove nixpkgs \
+    && rm -rf /nix/store/*-nixpkgs* \
+    && /root/.nix-profile/bin/nix-collect-garbage -d && /root/.nix-profile/bin/nix-store --verify --check-contents && /root/.nix-profile/bin/nix optimise-store \
     && rm -rf /tmp/* /var/tmp/* 
 
 ENV \
