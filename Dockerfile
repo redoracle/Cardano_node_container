@@ -54,7 +54,7 @@ RUN set -x \
     && mkdir -p /datak/ptn/{config,data,db} \
     && cd ~/ \
     && CN=$(which cardano-node) \
-    && echo "runc $CN run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr `curl ifconfig.me` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
+    && echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr `curl ifconfig.me` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
     && chmod +x /entry-point \
     && apt-get clean   \
     && apt autoremove --purge -y \
@@ -81,4 +81,4 @@ PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 
 EXPOSE 9000 3000 3101 3001
 #CMD ["/bin/bash", "~/jormungandr/tools/start-node.sh &"]
-ENTRYPOINT ["/entry-point"]
+#ENTRYPOINT ["/entry-point"]
