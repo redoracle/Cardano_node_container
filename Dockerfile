@@ -81,4 +81,4 @@ PATH=/root/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 
 EXPOSE 9000 3000 3101 3001
 #CMD ["/bin/bash", "~/jormungandr/tools/start-node.sh &"]
-#ENTRYPOINT ["/entry-point"]
+#ENTRYPOINT  ["/entry-point"]
