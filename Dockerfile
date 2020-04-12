@@ -45,7 +45,14 @@ RUN set -x \
     && curl https://nixos.org/nix/install | sh \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
-    && git clone https://github.com/input-output-hk/cardano-node.git 
+    && git clone https://github.com/input-output-hk/cardano-node.git \
+    && cd cardano-node \
+    && stack build \
+    && stack install \
+    && . ~/.profile \
+    && git clone https://github.com/cardano-community/guild-operators.git \
+    && mkdir -p /datak/ptn/{config,data,db} 
+
     
 
 ENV \
