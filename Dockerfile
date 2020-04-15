@@ -64,9 +64,7 @@ RUN set -x \
     && /root/.nix-profile/bin/nix-collect-garbage -d \
     && /root/.nix-profile/bin/nix-store --verify --check-contents \
     && /root/.nix-profile/bin/nix optimise-store \
-    && rm -rf /tmp/* /var/tmp/*
-
-    
+    && rm -rf /tmp/* /var/tmp/*    
 
 ENV \
 DEBIAN_FRONTEND=noninteractive \
