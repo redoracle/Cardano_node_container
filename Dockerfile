@@ -45,6 +45,15 @@ RUN set -x \
     && curl https://nixos.org/nix/install | sh \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
+    # complete bootstrap \
+    && curl https://gitlab.haskell.org/haskell/ghcup/raw/master/bootstrap-haskell -sSf | sh \
+    # prepare your environment \
+    && source "$HOME/.ghcup/env" \
+    && echo '. $HOME/.ghcup/env' >> "$HOME/.bashrc" \
+    # now create a project, such as: \
+    && mkdir myproject && cd myproject \
+    && cabal init -n --is-executable \
+    && cabal v2-run \
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node \
     && cabal build \
