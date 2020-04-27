@@ -47,8 +47,8 @@ RUN set -x \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node \
-    && stack build \
-    && stack install \
+    && cabal build \
+    #&& stack install \
     && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
     && mkdir -p /datak/ptn/{config,data,db} \
