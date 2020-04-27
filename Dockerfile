@@ -54,8 +54,8 @@ RUN set -x \
     && mkdir -p /datak/ptn/{config,data,db} \
     && cd ~/ \
     && CN=$(which cardano-node) \
-    && echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr `curl ifconfig.me` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
-    && chmod +x /entry-point \
+    #&& echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr `curl ifconfig.me` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
+    #&& chmod +x /entry-point \
     && apt-get clean   \
     && apt autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/* \
