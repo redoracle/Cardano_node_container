@@ -29,7 +29,7 @@ RUN set -x \
     && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
     && nix-channel --update \
     && nix-build -A pythonFull '<nixpkgs>' \
-    && nix-env -i cabal-install bash curl git jq tmux vim watch net-tools geoip-bin geoip-database wget \    
+    && nix-env -i cabal-install bash curl git jq tmux vim watch net-tools wget \    
     && export CNODE_HOME=/opt/cardano/cnode \
     && wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
     && bash prereqs.sh \
