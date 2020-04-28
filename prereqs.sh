@@ -98,4 +98,3 @@ curl -o system-info.sh https://raw.githubusercontent.com/cardano-community/guild
 chmod 755 ./*.sh
 # If you opt for an alternate CNODE_HOME, please run the below:
 # sed -i -e "s#/opt/cardano/cnode#${CNODE_HOME}#" *.sh
-cd - || return
