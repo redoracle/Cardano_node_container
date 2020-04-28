@@ -46,19 +46,13 @@ RUN set -x \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
     && /root/.nix-profile/bin/nix-env -i cabal-install \
-    && echo "Install ghcup (The Haskell Toolchain installer) .." \
-    && curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh -s - -q \
-    && . ~/.ghcup/env \
-    && ghcup install 8.6.5 \
-    && ghcup set 8.6.5 \
-    && ghc --version \
-    && echo "Installing Cabal 3.0.0 .." \
-    && wget https://downloads.haskell.org/cabal/cabal-install-3.0.0.0/cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz \
-    && tar xf cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz \
-    && chmod 755 cabal \
-    && mkdir ~/.cabal/bin \
-    && mv cabal ~/.ghcup/bin \
-    && rm -f cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz cabal.sig \
+    && curl -sSL https://get.haskellstack.org/ | sh \
+    && wget https://raw.githubusercontent.com/redoracle/guild-operators/master/files/ptn0/scripts/prereqs.sh \
+    && bash prereqs.sh \
+    && git clone https://github.com/input-output-hk/cardano-wallet.git \
+    && cd cardano-wallet \
+    && stack build --test --no-run-tests  \
+    && stack install \
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node \
     && cabal build \
