@@ -36,7 +36,7 @@ RUN set -x \
     && groupadd -g 30000 --system nixbld \
     && useradd --home-dir /var/empty --gid 30000 --groups nixbld --no-user-group --system --shell /usr/sbin/nologin --uid $((30000 + 1)) --password "!" nixbld1 \
     && mkdir -p /root/.config/nix /root/.nixpkgs \
-    && usermod -aG sudo nixbld \
+    && usermod -aG sudo nixbld1 \
     #&& curl -sSL https://get.haskellstack.org/ | sh \
     #&& install -d -m755 -o $(id -u) -g $(id -g) /nix \
     && echo "{ allowUnfree = true; }" > /root/.nixpkgs/config.nix \
@@ -48,7 +48,7 @@ RUN set -x \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
     #&& /root/.nix-profile/bin/nix-env -i cabal-install \
-    && sudo su - nixbld \   
+    && sudo su - nixbld1 \   
     && wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
     && bash prereqs.sh \
     && git clone https://github.com/input-output-hk/cardano-wallet.git \
