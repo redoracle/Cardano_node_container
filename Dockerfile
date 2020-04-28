@@ -32,7 +32,7 @@ RUN set -x \
 
     && apt-get -yqq update  \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl g++ gcc make git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database wget \    
+    && apt-get -yqq install bash curl g++ gcc make git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database wget \    
     && groupadd -g 30000 --system nixbld \
     && useradd --home-dir /home/nixbld1 --gid 30000 --groups nixbld --no-user-group --system --shell bash --uid $((30000 + 1)) --password "!" nixbld1 \
     && mkdir -p /nix \
