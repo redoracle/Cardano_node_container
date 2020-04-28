@@ -29,10 +29,10 @@ RUN set -x \
     && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
     && nix-channel --update \
     && nix-build -A pythonFull '<nixpkgs>' \
-    && nix-env -i cabal-install bash curl git jq tmux vim watch net-tools wget \    
+    && nix-env -i cabal-install libevdev libevdevc libudev0 ghc gmp gcc libgcc automake cmake mmake libtool openssl ssl-cert-check ncurses autobuild bash curl git jq tmux vim watch net-tools wget \    
     && export CNODE_HOME=/opt/cardano/cnode \
-    && wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
-    && bash prereqs.sh \
+    #&& wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
+    #&& bash prereqs.sh \
     && git clone https://github.com/input-output-hk/cardano-wallet.git \
     && cd cardano-wallet \
     && stack build --test --no-run-tests  \
