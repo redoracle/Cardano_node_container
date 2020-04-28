@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM nixos/nix
 MAINTAINER RedOracle
 
 ARG BUILD_DATE
@@ -23,34 +23,13 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       io.github.offensive-security.license="GPLv3" \
       MAINTAINER="RedOracle <info@redoracle.com>"
 
-WORKDIR /root
-
 VOLUME /datak
 
 RUN set -x \
-    && sed -i -e 's/^root::/root:*:/' /etc/shadow \
-
-    && apt-get -yqq update  \                                                       
-    && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install bash curl g++ gcc make git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database wget \    
-    && groupadd -g 30000 --system nixbld \
-    && useradd --home-dir /home/nixbld1 --gid 30000 --groups nixbld --no-user-group --system --shell bash --uid $((30000 + 1)) --password "!" nixbld1 \
-    && mkdir -p /nix \
-    && chown nixbld1:30000 /nix \ 
-    && usermod -aG sudo nixbld1 \
-    && sudo su - nixbld1 \
-    #&& curl -sSL https://get.haskellstack.org/ | sh \
-    #&& install -d -m755 -o $(id -u) -g $(id -g) /nix \
-    && echo "{ allowUnfree = true; }" > ~/.nixpkgs/config.nix \
-    && export NIX_PATH=nixpkgs=~/.nix-defexpr/channels/nixpkgs:/root/.nix-defexpr/channels \
-    && export NIX_SSL_CERT_FILE=~/ssl/certs/ca-certificates.crt \
-    && export PATH=~/.nix-profile/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.local/bin \
-    #&& export SUDO_FORCE_REMOVE=yes \
-    && curl https://nixos.org/nix/install | sh \
-    && ~/.nix-profile/bin/nix-channel --update \
-    && ~/.nix-profile/bin/nix-env -iA nixpkgs.nix \
-    #&& /root/.nix-profile/bin/nix-env -i cabal-install \
-    && mkdir -p ~/.config/nix ~/.nixpkgs \
+    && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
+    && nix-channel --update \
+    && nix-build -A pythonFull '<nixpkgs>' \
+    && nix-env -i cabal-install bash curl git jq tmux vim watch net-tools geoip-bin geoip-database wget \    
     && export CNODE_HOME=/opt/cardano/cnode \
     && wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
     && bash prereqs.sh \
@@ -64,19 +43,15 @@ RUN set -x \
     && cabal install \
     && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
-    && mkdir -p /datak/ptn/{config,data,db} \
     && cd ~/ \
     && CN=$(which cardano-node) \
     #&& echo "cardano-node run --config /datak/ptn/config/pbft_config.json --database-path /datak/ptn/db --host-addr `curl ifconfig.me` --signing-key /datak/configuration/002-Redoracle.key --delegation-certificate /datak/configuration/002-Redoracle.cert --port 9000 --socket-path /datak/ptn/data/pbft_node.socket --topology /datak/ptn/config/pbft_topology.json" > /entry-point \
     #&& chmod +x /entry-point \
-    && apt-get clean   \
-    && apt autoremove --purge -y \
-    && rm -rf /var/lib/apt/lists/* \
-    && /root/.nix-profile/bin/nix-channel --remove nixpkgs \
+    && nix-channel --remove nixpkgs \
     && rm -rf /nix/store/*-nixpkgs* \
-    && /root/.nix-profile/bin/nix-collect-garbage -d \
-    && /root/.nix-profile/bin/nix-store --verify --check-contents \
-    && /root/.nix-profile/bin/nix optimise-store \
+    && nix-collect-garbage -d \
+    && nix-store --verify --check-contents \
+    && nix optimise-store \
     && rm -rf /tmp/* /var/tmp/*    
 
 ENV \
