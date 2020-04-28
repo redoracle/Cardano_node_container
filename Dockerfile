@@ -29,9 +29,10 @@ VOLUME /datak
 
 RUN set -x \
     && sed -i -e 's/^root::/root:*:/' /etc/shadow \
+    && export CNODE_HOME=/opt/cardano/cnode \
     && apt-get -yqq update  \                                                       
     && apt-get -yqq dist-upgrade \
-    && apt-get -yqq install curl g++ gcc gmp make ncurses realpath xz-utils git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database \    
+    && apt-get -yqq install curl g++ gcc gmp make ncurses xz-utils git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database \    
     && curl -sSL https://get.haskellstack.org/ | sh \
     && install -d -m755 -o $(id -u) -g $(id -g) /nix \
     && groupadd -g 30000 --system nixbld \
@@ -55,7 +56,7 @@ RUN set -x \
     && stack install \
     && git clone https://github.com/input-output-hk/cardano-node.git \
     && cd cardano-node \
-    && cabal build \
+    && $CNODE_HOME/scripts/cabal-build-all.sh \
     && cabal install \
     && . ~/.profile \
     && git clone https://github.com/cardano-community/guild-operators.git \
