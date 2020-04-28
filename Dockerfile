@@ -47,7 +47,6 @@ RUN set -x \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
     && /root/.nix-profile/bin/nix-env -i cabal-install \
-    && curl -sSL https://get.haskellstack.org/ | sh \
     && wget https://raw.githubusercontent.com/redoracle/guild-operators/master/files/ptn0/scripts/prereqs.sh \
     && bash prereqs.sh \
     && git clone https://github.com/input-output-hk/cardano-wallet.git \
