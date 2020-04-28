@@ -29,14 +29,18 @@ RUN set -x \
     && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
     && nix-channel --update \
     && nix-build -A pythonFull '<nixpkgs>' \
-    && nix-env -i cabal-install wget libevdev libevdevc ghc gmp libgcc automake cmake mmake libtool gnutar \
-    && nix-env -i openssl ssl-cert-check ncurses autobuild bash curl git jq tmux vim watch net-tools \    
+    && nix-env -i wget libevdev zlib openssl libffi systemd libevdevc ghc gmp perl xz gcc automake cmake mmake libtool gnutar glibc socat coreutils \
+    && nix-env -i iana-etc iputils glib glibc-locales cabal-install ghcid hlint nix niv sqlite-interactive ssl-cert-check ncurses autobuild bash curl git jq tmux vim watch net-tools utillinux \
+    && wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/shell.nix \
+    && nix-shell shell.nix \
     && export CNODE_HOME=/opt/cardano/cnode \
     && mkdir -p $CNODE_HOME \
     #&& wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
     #&& bash prereqs.sh \
     && echo "Install ghcup (The Haskell Toolchain installer) .." \
     && export BOOTSTRAP_HASKELL_NONINTERACTIVE=n \
+    && /root/.ghcup/bin/ghcup upgrade \
+    && /root/.ghcup/bin/ghcup --cache install \
     && curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh -s - -q \
     # shellcheck source=/dev/null
     && . ~/.ghcup/env \
