@@ -29,31 +29,32 @@ RUN set -x \
     && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
     && nix-channel --update \
     && nix-build -A pythonFull '<nixpkgs>' \
-    && nix-env -i wget libevdev zlib openssl libffi systemd libevdevc ghc gmp perl xz gcc automake cmake mmake libtool gnutar glibc socat coreutils \
-    && nix-env -i iana-etc iputils glib glibc-locales cabal-install ghcid hlint nix niv sqlite-interactive ssl-cert-check ncurses autobuild bash curl git jq tmux vim watch net-tools utillinux \
+    && nix-env -i wget \
+    #libevdev zlib openssl libffi systemd libevdevc ghc gmp perl xz gcc automake cmake mmake libtool gnutar glibc socat coreutils \
+    #&& nix-env -i iana-etc iputils glib glibc-locales cabal-install ghcid hlint nix niv sqlite-interactive ssl-cert-check ncurses autobuild bash curl git jq tmux vim watch net-tools utillinux \
     && wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/shell.nix \
     && nix-shell shell.nix \
     && export CNODE_HOME=/opt/cardano/cnode \
     && mkdir -p $CNODE_HOME \
     #&& wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
     #&& bash prereqs.sh \
-    && echo "Install ghcup (The Haskell Toolchain installer) .." \
-    && export BOOTSTRAP_HASKELL_NONINTERACTIVE=n \
-    && /root/.ghcup/bin/ghcup upgrade \
-    && /root/.ghcup/bin/ghcup --cache install \
-    && curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh -s - -q \
+    #&& echo "Install ghcup (The Haskell Toolchain installer) .." \
+    #&& export BOOTSTRAP_HASKELL_NONINTERACTIVE=n \
+    #&& /root/.ghcup/bin/ghcup upgrade \
+    #&& /root/.ghcup/bin/ghcup --cache install \
+    #&& curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh -s - -q \
     # shellcheck source=/dev/null
-    && . ~/.ghcup/env \
-    && ghcup install 8.6.5 \
-    && ghcup set 8.6.5 \
-    && ghc --version \
-    && echo "Installing Cabal 3.0.0 .." \
-    && wget https://downloads.haskell.org/cabal/cabal-install-3.0.0.0/cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz \
-    && tar xf cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz \
-    && chmod 755 cabal \
-    && mkdir -p ~/.cabal/bin \
-    && mv cabal ~/.ghcup/bin \
-    && rm -f cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz cabal.sig \
+    #&& . ~/.ghcup/env \
+    #&& ghcup install 8.6.5 \
+    #&& ghcup set 8.6.5 \
+    #&& ghc --version \
+    #&& echo "Installing Cabal 3.0.0 .." \
+    #&& wget https://downloads.haskell.org/cabal/cabal-install-3.0.0.0/cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz \
+    #&& tar xf cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz \
+    #&& chmod 755 cabal \
+    #&& mkdir -p ~/.cabal/bin \
+    #&& mv cabal ~/.ghcup/bin \
+    #&& rm -f cabal-install-3.0.0.0-x86_64-unknown-linux.tar.xz cabal.sig \
     && git clone https://github.com/input-output-hk/cardano-wallet.git \
     && cd cardano-wallet \
     && stack build --test --no-run-tests  \
