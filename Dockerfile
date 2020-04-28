@@ -33,8 +33,10 @@ RUN set -x \
     && apt-get -yqq update  \                                                       
     && apt-get -yqq dist-upgrade \
     && apt-get -yqq install curl g++ gcc make git jq pkg-config libsystemd-dev libz-dev libpq-dev libssl-dev libtinfo-dev tmux cmake vim watch net-tools geoip-bin geoip-database \    
-    && curl -sSL https://get.haskellstack.org/ | sh \
-    && install -d -m755 -o $(id -u) -g $(id -g) /nix \
+    && wget https://raw.githubusercontent.com/redoracle/guild-operators/master/files/ptn0/scripts/prereqs.sh \
+    && bash prereqs.sh \
+    #&& curl -sSL https://get.haskellstack.org/ | sh \
+    #&& install -d -m755 -o $(id -u) -g $(id -g) /nix \
     && groupadd -g 30000 --system nixbld \
     && useradd --home-dir /var/empty --gid 30000 --groups nixbld --no-user-group --system --shell /usr/sbin/nologin --uid $((30000 + 1)) --password "!" nixbld1 \
     && mkdir -p /root/.config/nix /root/.nixpkgs \
@@ -46,9 +48,7 @@ RUN set -x \
     && curl https://nixos.org/nix/install | sh \
     && /root/.nix-profile/bin/nix-channel --update \
     && /root/.nix-profile/bin/nix-env -iA nixpkgs.nix \
-    && /root/.nix-profile/bin/nix-env -i cabal-install \
-    && wget https://raw.githubusercontent.com/redoracle/guild-operators/master/files/ptn0/scripts/prereqs.sh \
-    && bash prereqs.sh \
+    #&& /root/.nix-profile/bin/nix-env -i cabal-install \
     && git clone https://github.com/input-output-hk/cardano-wallet.git \
     && cd cardano-wallet \
     && stack build --test --no-run-tests  \
