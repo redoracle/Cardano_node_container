@@ -35,8 +35,8 @@ RUN set -x \
     && mkdir -p $CNODE_HOME \
     #&& wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
     #&& bash prereqs.sh \
-    && echo "Install ghcup (The Haskell Toolchain installer) .."
-    && export BOOTSTRAP_HASKELL_NONINTERACTIVE=n
+    && echo "Install ghcup (The Haskell Toolchain installer) .." \
+    && export BOOTSTRAP_HASKELL_NONINTERACTIVE=n \
     && curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh -s - -q \
     # shellcheck source=/dev/null
     && . ~/.ghcup/env \
