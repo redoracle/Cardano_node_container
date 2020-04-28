@@ -29,8 +29,8 @@ RUN set -x \
     && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs \
     && nix-channel --update \
     && nix-build -A pythonFull '<nixpkgs>' \
-    && nix-env -i cabal-install wget libevdev libevdevc ghc gmp libgcc automake cmake mmake libtool gnutar gcc \
-    && nix-env -i openssl ssl-cert-check ncurses autobuild bash curl git jq tmux vim watch net-tools  \    
+    && nix-env -i cabal-install wget libevdev libevdevc ghc gmp libgcc automake cmake mmake libtool gnutar \
+    && nix-env -i openssl ssl-cert-check ncurses autobuild bash curl git jq tmux vim watch net-tools gcc \    
     && export CNODE_HOME=/opt/cardano/cnode \
     && mkdir -p $CNODE_HOME \
     #&& wget https://raw.githubusercontent.com/redoracle/jormungandr/haskell/prereqs.sh \
