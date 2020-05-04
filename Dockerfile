@@ -42,7 +42,7 @@ RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && cd /root/jormungandr/ \   
     && JORROOT="https://github.com" \
     && wget https://github.com/input-output-hk/jormungandr/releases/latest \
-    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu.tar.gz"| head -1| cut -d "\"" -f 2) \
+    && JORPLINK=$(cat latest | grep "x86_64-unknown-linux-gnu-generic.tar.gz"| head -1| cut -d "\"" -f 2) \
     && Dwnjorf=$(echo $JORPLINK | cut -d "/" -f 7) \
     && wget $JORROOT$JORPLINK \
     && tar xzvf $Dwnjorf \
