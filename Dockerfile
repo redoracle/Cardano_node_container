@@ -35,9 +35,8 @@ RUN set -x \
     && pip3 install pprint \
     && pip3 install ruamel.yaml \
     && pip3 install db-sqlite3  \
-    && pip3 install pycrypto 
-
-RUN git clone https://github.com/Kodex-Data-Systems/Casper.git \
+    && pip3 install pycrypto \
+    #&& git clone https://github.com/Kodex-Data-Systems/Casper.git \
     && mkdir -p /root/jormungandr/tools \ 
     && cd /root/jormungandr/ \   
     && JORROOT="https://github.com" \
