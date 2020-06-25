@@ -107,7 +107,7 @@ ENV=/etc/profile \
 USER=root \
 PATH=/root/jormungandr/:/root/jormungandr/scripts:/root/jormungandr/tools:/bin:/sbin:/usr/bin:/usr/sbin:$PATH 
 
-    # Faucet examples \
+    # Faucet examples  \
     # https://github.com/input-output-hk/js-chain-libs/tree/master/examples/faucet \
     # https://github.com/input-output-hk/js-chain-libs \
     # https://github.com/input-output-hk/shelley-testnet/wiki/JavaScript-SDK:---How-to-install-the-example-faucet-app%3F \
